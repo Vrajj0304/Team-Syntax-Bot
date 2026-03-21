@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Satellite Data Hub - EcoWeather</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
+            color: #2c3e50;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(135deg, #1b5e20 0%, #2d5016 100%);
+            padding: 24px 0;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 2px 0 8px rgba(45, 80, 22, 0.2);
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 20px 30px;
+            border-bottom: 2px solid rgba(76, 175, 80, 0.3);
+        }
+
+        .sidebar-logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #4caf50, #2d5016);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 28px;
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+        }
+
+        .sidebar-logo-text h2 {
+            color: #fff;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .sidebar-logo-text p {
+            color: #a5d6a7;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 0 12px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 16px;
+            color: #a5d6a7;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s;
+            margin-bottom: 8px;
+            font-size: 15px;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .nav-item:hover {
+            background: rgba(76, 175, 80, 0.15);
+            color: #fff;
+            transform: translateX(4px);
+        }
+
+        .nav-item.active {
+            background: rgba(76, 175, 80, 0.25);
+            color: #fff;
+            border-left: 4px solid #4caf50;
+            padding-left: 12px;
+        }
+
+        .nav-item-icon {
+            font-size: 20px;
+            min-width: 24px;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
+            margin-left: 280px;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            background: #fff;
+            padding: 24px 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.1);
+            flex-shrink: 0;
+            border-bottom: 2px solid #c8e6c9;
+            position: relative;
+            z-index: 100;
+        }
+
+        .header-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1b5e20;
+            margin-bottom: 4px;
+        }
+
+        .header-subtitle {
+            font-size: 14px;
+            color: #558b2f;
+        }
+
+        /* ===== CONTENT AREA ===== */
+        .content-wrapper {
+            flex: 1;
+            padding: 32px;
+            overflow-y: auto;
+        }
+
+        /* ===== HARMONIZATION ENGINE ===== */
+        .harmonization-section {
+            background: #fff;
+            border: 2px solid #c8e6c9;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 32px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.1);
+        }
+
+        .harmonization-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #4caf50, transparent);
+        }
+
+        .harmonization-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .harmonization-icon {
+            font-size: 32px;
+            color: #4caf50;
+        }
+
+        .harmonization-content h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1b5e20;
+            margin-bottom: 8px;
+        }
+
+        .harmonization-text {
+            font-size: 14px;
+            color: #558b2f;
+            line-height: 1.6;
+        }
+
+        /* ===== SATELLITE MISSIONS ===== */
+        .missions-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .mission-card {
+            background: #fff;
+            border: 2px solid #c8e6c9;
+            border-radius: 12px;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.1);
+        }
+
+        .mission-card:hover {
+            box-shadow: 0 4px 16px rgba(76, 175, 80, 0.2);
+            border-color: #4caf50;
+            transform: translateY(-2px);
+        }
+
+        .mission-card.expanded {
+            border-color: #4caf50;
+            background: linear-gradient(135deg, #f1f8e9 0%, #fff 100%);
+        }
+
+        .mission-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #4caf50, transparent);
+        }
+
+        .mission-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+
+        .mission-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex: 1;
+        }
+
+        .mission-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.2), rgba(76, 175, 80, 0.1));
+            border: 2px solid #4caf50;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .mission-details h4 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1b5e20;
+            margin-bottom: 4px;
+        }
+
+        .mission-agency {
+            font-size: 12px;
+            color: #a5d6a7;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .mission-toggle {
+            font-size: 24px;
+            color: #4caf50;
+            transition: transform 0.3s;
+        }
+
+        .mission-toggle.expanded {
+            transform: rotate(180deg);
+        }
+
+        /* ===== MISSION SPECS ===== */
+        .mission-specs {
+            display: none;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #c8e6c9;
+        }
+
+        .mission-specs.visible {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+        }
+
+        .spec-item {
+            background: linear-gradient(135deg, #f1f8e9 0%, #e8f5e9 100%);
+            border: 1px solid #c8e6c9;
+            border-radius: 8px;
+            padding: 16px;
+            transition: all 0.3s;
+        }
+
+        .spec-item:hover {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border-color: #4caf50;
+        }
+
+        .spec-label {
+            font-size: 12px;
+            color: #558b2f;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .spec-value {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1b5e20;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .spec-icon {
+            font-size: 18px;
+        }
+
+        /* ===== MISSION DESCRIPTION ===== */
+        .mission-description {
+            display: none;
+            margin-top: 20px;
+            padding: 16px;
+            background: linear-gradient(135deg, #f1f8e9 0%, #e8f5e9 100%);
+            border-left: 4px solid #4caf50;
+            border-radius: 6px;
+            line-height: 1.6;
+            color: #558b2f;
+            font-size: 14px;
+        }
+
+        .mission-description.visible {
+            display: block;
+        }
+
+        /* ===== STATUS BADGES ===== */
+        .status-badges {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.15), rgba(76, 175, 80, 0.1));
+            border: 1px solid #c8e6c9;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #1b5e20;
+        }
+
+        .status-badge.active {
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.3), rgba(76, 175, 80, 0.2));
+            border-color: #4caf50;
+            color: #1b5e20;
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f8e9;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #c8e6c9;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a5d6a7;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 240px;
+            }
+
+            .main-wrapper {
+                margin-left: 240px;
+            }
+
+            .mission-specs.visible {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                padding: 12px 0;
+                flex-direction: row;
+                overflow-x: auto;
+                overflow-y: visible;
+                z-index: 500;
+            }
+
+            .main-wrapper {
+                margin-left: 0;
+            }
+
+            .sidebar-nav {
+                display: flex;
+                gap: 8px;
+                overflow-x: auto;
+                padding: 0 12px;
+            }
+
+            .nav-item {
+                white-space: nowrap;
+            }
+
+            .header {
+                padding: 16px;
+            }
+
+            .header-title {
+                font-size: 24px;
+            }
+
+            .content-wrapper {
+                padding: 16px;
+            }
+
+            .mission-specs.visible {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <div class="sidebar-logo">
+        <div class="sidebar-logo-icon">🌍</div>
+        <div class="sidebar-logo-text">
+            <h2>EnviroSat</h2>
+            <p>Intelligence</p>
+        </div>
+    </div>
+
+    <nav class="sidebar-nav">
+        <a href="Final_Dashboard.html" class="nav-item">
+            <span class="nav-item-icon">📊</span>
+            <span>Dashboard</span>
+        </a>
+        <a href="Final_Satellite_Hub.html" class="nav-item active">
+            <span class="nav-item-icon">🛰️</span>
+            <span>Satellite Hub</span>
+        </a>
+        <a href="Final_Time_Series.html" class="nav-item">
+            <span class="nav-item-icon">📈</span>
+            <span>Time Series</span>
+        </a>
+        <a href="Final_Ml_Analytics.html" class="nav-item">
+            <span class="nav-item-icon">✨</span>
+            <span>ML Analytics</span>
+        </a>
+        <a href="Final_Geospatial_Maps.html" class="nav-item">
+            <span class="nav-item-icon">🗺️</span>
+            <span>Geospatial Maps</span>
+        </a>
+        <a href="Final_Action_Plans.html" class="nav-item">
+            <span class="nav-item-icon">📋</span>
+            <span>Action Plans</span>
+        </a>
+    </nav>
+</div>
+
+<!-- MAIN CONTENT WRAPPER -->
+<div class="main-wrapper">
+    <!-- HEADER -->
+    <div class="header">
+        <h1 class="header-title">Satellite Data Hub</h1>
+        <p class="header-subtitle">Multi-mission ingestion • Harmonized to common spatial grid • Consistent lat-lng referencing</p>
+    </div>
+
+    <!-- CONTENT AREA -->
+    <div class="content-wrapper">
+        <!-- HARMONIZATION ENGINE -->
+        <div class="harmonization-section">
+            <div class="harmonization-header">
+                <div class="harmonization-icon">👁️</div>
+                <div class="harmonization-content">
+                    <h3>Spatial Harmonization Engine</h3>
+                    <p class="harmonization-text">
+                        All satellite data is reprojected to a common 500m × 500m grid (EPSG:4326). Multi-resolution fusion uses bilinear interpolation for upscaling and area-weighted averaging for downscaling. Temporal alignment snaps observations to nearest 8-day composite windows.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SATELLITE MISSIONS -->
+        <div class="missions-section">
+            <!-- MODIS -->
+            <div class="mission-card">
+                <div class="mission-header" onclick="toggleMission(this)">
+                    <div class="mission-info">
+                        <div class="mission-icon">🛰️</div>
+                        <div class="mission-details">
+                            <h4>MODIS (Terra/Aqua)</h4>
+                            <div class="mission-agency">NASA</div>
+                        </div>
+                    </div>
+                    <div class="mission-toggle">⌄</div>
+                </div>
+
+                <div class="mission-specs">
+                    <div class="spec-item">
+                        <div class="spec-label">Resolution</div>
+                        <div class="spec-value">
+                            <span class="spec-icon">📏</span>
+                            250m-1km
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Revisit Rate</div>
+                        <div class="spec-value">
+                            <span class="spec-icon">⏱️</span>
+                            1-2 days
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Spectral Bands</div>
+                        <div class="spec-value">
+                            <span class="spec-icon">📊</span>
+                            36 bands
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Data Coverage</div>
+                        <div class="spec-value">
+                            <span class="spec-icon">🌍</span>
+                            Global
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mission-description">
+                    <strong>Description:</strong> MODIS (Moderate Resolution Imaging Spectroradiometer) is a payload scientific instrument aboard NASA's Terra and Aqua satellites. It measures surface temperature, cloud properties, ocean color, vegetation, and aerosol characteristics. Provides data for land cover mapping, vegetation monitoring, and climate research.
+                </div>
+
+                <div class="status-badges">
+                    <div class="status-badge active">
+                        <span>✓</span>
+                        Active
+                    </div>
+                    <div class="status-badge active">
+                        <span>📡</span>
+                        Real-time
+                    </div>
+                    <div class="status-badge">
+                        <span>🔍</span>
+                        Multi-spectral
+                    </div>
+                </div>
+            </div>
+
+            <!-- Landsat -->
+            <div class="mission-card">
+                <div class="mission-header" onclick="toggleMission(this)">
+                    <div class="mission-info">
+                        <div class="mission-icon">🛰️</div>
+                        <div class="mission-details">
+                            <h4>Landsat 8/9</h4>
+                            <div class="mission-agency">USGS/NASA</div>
+                        </div>
+                    </div>
+                    <div class="mission-toggle">⌄</div>
+                </div>
+
+                <div class="mission-specs">
+                    <div class="spec-item">
+                        <div class="spec-label">Resolution</div>
+                        <div class="spec-value">
+                            <span class="spec-icon">📏</span>
+                            30m
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Revisit Rate</div>
+                        <div class="spec-value">
+                            <span class="spec-icon">⏱️</span>
+                            16 days
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Spectral Bands</div>
+                        <div class="spec-value">
+                            <span class="spec-icon">📊</span>
+                            11 bands
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Data Coverage</div>
+                        <div class="spec-value">
+                            <span class="spec-icon">🌍</span>
+                            Global
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mission-description">
+                    <strong>Description:</strong> Landsat 8 and 9 provide high-resolution multispectral imagery with 30-meter resolution for land cover classification, vegetation indices, and thermal imaging. Part of the longest-running Earth observation program with data spanning decades. Ideal for land use/land cover mapping and environmental monitoring.
+                </div>
+
+                <div class="status-badges">
+                    <div class="status-badge active">
+                        <span>✓</span>
+                        Active
+                    </div>
+                    <div class="status-badge">
+                        <span>📡</span>
+                        Archived
+                    </div>
+                    <div class="status-badge active">
+                        <span>🔍</span>
+                        Panchromatic
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sentinel -->
+            <div class="mission-card">
+                <div class="mission-header" onclick="toggleMission(this)">
+                    <div class="mission-info">
+                        <div class="mission-icon">🛰️</div>
+                        <div class="mission-details">
+                            <h4>Sentinel-2/5P</h4>
+                            <div class="mission-agency">ESA</div>
+                        </div>
+                    </div>
+                    <div class="mission-toggle">⌄</div>
+                </div>
+
+                <div class="mission-specs">
+                    <div class="spec-item">
+                        <div class="spec-label">Resolution</div>
+                        <div class="spec-value">
+                            <span class="spec-icon">📏</span>
+                            10-60m
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Revisit Rate</div>
+                        <div class="spec-value">
+                            <span class="spec-icon">⏱️</span>
+                            5 days
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Spectral Bands</div>
+                        <div class="spec-value">
+                            <span class="spec-icon">📊</span>
+                            13 bands
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Data Coverage</div>
+                        <div class="spec-value">
+                            <span class="spec-icon">🌍</span>
+                            Global
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mission-description">
+                    <strong>Description:</strong> Sentinel-2 provides high-resolution multispectral imagery with 10-60m resolution and 5-day revisit time. Sentinel-5P focuses on atmospheric composition including ozone, nitrogen dioxide, methane, and carbon monoxide. Essential for vegetation monitoring, air quality assessment, and environmental change detection.
+                </div>
+
+                <div class="status-badges">
+                    <div class="status-badge active">
+                        <span>✓</span>
+                        Active
+                    </div>
+                    <div class="status-badge active">
+                        <span>📡</span>
+                        Real-time
+                    </div>
+                    <div class="status-badge active">
+                        <span>🔍</span>
+                        Multispectral
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resourcesat -->
+            <div class="mission-card">
+                <div class="mission-header" onclick="toggleMission(this)">
+                    <div class="mission-info">
+                        <div class="mission-icon">🛰️</div>
+                        <div class="mission-details">
+                            <h4>Resourcesat-2/2A</h4>
+                            <div class="mission-agency">ISRO</div>
+                        </div>
+                    </div>
+                    <div class="mission-toggle">⌄</div>
+                </div>
+
+                <div class="mission-specs">
+                    <div class="spec-item">
+                        <div class="spec-label">Resolution</div>
+                        <div class="spec-value">
+                            <span class="spec-icon">📏</span>
+                            5.8-56m
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Revisit Rate</div>
+                        <div class="spec-value">
+                            <span class="spec-icon">⏱️</span>
+                            5 days
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Spectral Bands</div>
+                        <div class="spec-value">
+                            <span class="spec-icon">📊</span>
+                            6 bands
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Data Coverage</div>
+                        <div class="spec-value">
+                            <span class="spec-icon">🌍</span>
+                            Regional
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mission-description">
+                    <strong>Description:</strong> Resourcesat is India's remote sensing satellite designed for resource monitoring and management. Provides data for agriculture, forestry, water resources, and environmental monitoring with high spatial resolution and frequent revisit capabilities.
+                </div>
+
+                <div class="status-badges">
+                    <div class="status-badge active">
+                        <span>✓</span>
+                        Active
+                    </div>
+                    <div class="status-badge">
+                        <span>📡</span>
+                        Regional
+                    </div>
+                    <div class="status-badge">
+                        <span>🔍</span>
+                        Multispectral
+                    </div>
+                </div>
+            </div>
+
+            <!-- INSAT -->
+            <div class="mission-card">
+                <div class="mission-header" onclick="toggleMission(this)">
+                    <div class="mission-info">
+                        <div class="mission-icon">🛰️</div>
+                        <div class="mission-details">
+                            <h4>INSAT-3D/3DR</h4>
+                            <div class="mission-agency">ISRO</div>
+                        </div>
+                    </div>
+                    <div class="mission-toggle">⌄</div>
+                </div>
+
+                <div class="mission-specs">
+                    <div class="spec-item">
+                        <div class="spec-label">Resolution</div>
+                        <div class="spec-value">
+                            <span class="spec-icon">📏</span>
+                            1-4km
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Revisit Rate</div>
+                        <div class="spec-value">
+                            <span class="spec-icon">⏱️</span>
+                            30 min
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Spectral Bands</div>
+                        <div class="spec-value">
+                            <span class="spec-icon">📊</span>
+                            6 bands
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Data Coverage</div>
+                        <div class="spec-value">
+                            <span class="spec-icon">🌍</span>
+                            Regional
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mission-description">
+                    <strong>Description:</strong> INSAT-3D and INSAT-3DR are geostationary meteorological satellites providing rapid updates on atmospheric and surface parameters. Excellent for weather monitoring, cloud tracking, and immediate environmental assessments with 30-minute temporal resolution.
+                </div>
+
+                <div class="status-badges">
+                    <div class="status-badge active">
+                        <span>✓</span>
+                        Active
+                    </div>
+                    <div class="status-badge active">
+                        <span>📡</span>
+                        Real-time
+                    </div>
+                    <div class="status-badge">
+                        <span>🔍</span>
+                        Geostationary
+                    </div>
+                </div>
+            </div>
+
+            <!-- SMAP -->
+            <div class="mission-card">
+                <div class="mission-header" onclick="toggleMission(this)">
+                    <div class="mission-info">
+                        <div class="mission-icon">🛰️</div>
+                        <div class="mission-details">
+                            <h4>SMAP</h4>
+                            <div class="mission-agency">NASA</div>
+                        </div>
+                    </div>
+                    <div class="mission-toggle">⌄</div>
+                </div>
+
+                <div class="mission-specs">
+                    <div class="spec-item">
+                        <div class="spec-label">Resolution</div>
+                        <div class="spec-value">
+                            <span class="spec-icon">📏</span>
+                            9-36km
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Revisit Rate</div>
+                        <div class="spec-value">
+                            <span class="spec-icon">⏱️</span>
+                            2-3 days
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Sensor Type</div>
+                        <div class="spec-value">
+                            <span class="spec-icon">📊</span>
+                            Microwave
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Data Coverage</div>
+                        <div class="spec-value">
+                            <span class="spec-icon">🌍</span>
+                            Global
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mission-description">
+                    <strong>Description:</strong> Soil Moisture Active Passive (SMAP) satellite provides global measurements of soil moisture and freeze/thaw state using radar and radiometer instruments. Critical for water resources, climate prediction, and drought monitoring applications.
+                </div>
+
+                <div class="status-badges">
+                    <div class="status-badge active">
+                        <span>✓</span>
+                        Active
+                    </div>
+                    <div class="status-badge">
+                        <span>📡</span>
+                        Archived
+                    </div>
+                    <div class="status-badge">
+                        <span>🔍</span>
+                        Microwave
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleMission(headerElement) {
+        const card = headerElement.closest('.mission-card');
+        const specs = card.querySelector('.mission-specs');
+        const description = card.querySelector('.mission-description');
+        const toggle = card.querySelector('.mission-toggle');
+
+        // Toggle other cards closed
+        document.querySelectorAll('.mission-card').forEach(c => {
+            if (c !== card) {
+                c.classList.remove('expanded');
+                c.querySelector('.mission-specs').classList.remove('visible');
+                c.querySelector('.mission-description').classList.remove('visible');
+                c.querySelector('.mission-toggle').classList.remove('expanded');
+            }
+        });
+
+        // Toggle current card
+        card.classList.toggle('expanded');
+        specs.classList.toggle('visible');
+        description.classList.toggle('visible');
+        toggle.classList.toggle('expanded');
+    }
+</script>
+
+</body>
+</html>
