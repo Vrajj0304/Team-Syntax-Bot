@@ -231,6 +231,9 @@
             border-radius: 8px;
             padding: 20px;
             transition: all 0.3s;
+            min-height: 160px;
+            display: flex;
+            flex-direction: column;
         }
 
         .kpi-card:hover {
@@ -449,26 +452,27 @@
             color: #1b5e20;
         }
 
-        /* ===== AQI CARD SPECIFIC ===== */
+        /* ===== FIXED AQI BLOCK STYLES ===== */
         .aqi-card-content {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100%;
+            flex: 1; /* Occupies remaining space in card */
+            padding-bottom: 10px;
         }
 
         .aqi-large-value {
-            font-size: 48px;
+            font-size: 44px;
             font-weight: 700;
             color: #1b5e20;
-            margin-bottom: 12px;
+            line-height: 1; /* Removes internal font padding */
+            margin-bottom: 4px;
         }
 
         .aqi-condition {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
-            color: #558b2f;
             text-transform: capitalize;
         }
 
@@ -528,139 +532,33 @@
             letter-spacing: 0.5px;
         }
 
-        /* ===== SCROLLBAR ===== */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #f1f8e9;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #c8e6c9;
-            border-radius: 3px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #a5d6a7;
-        }
-
         /* ===== RESPONSIVE ===== */
         @media (max-width: 1400px) {
-            .kpi-row {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .nav-links {
-                grid-template-columns: repeat(3, 1fr);
-            }
+            .kpi-row { grid-template-columns: repeat(2, 1fr); }
+            .nav-links { grid-template-columns: repeat(3, 1fr); }
         }
 
         @media (max-width: 1024px) {
-            .sidebar {
-                width: 240px;
-            }
-
-            .main-wrapper {
-                margin-left: 240px;
-            }
-
-            .main-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .content-wrapper {
-                padding: 20px;
-            }
-            
-            .nav-links {
-                grid-template-columns: repeat(2, 1fr);
-            }
+            .sidebar { width: 240px; }
+            .main-wrapper { margin-left: 240px; }
+            .main-grid { grid-template-columns: 1fr; }
+            .nav-links { grid-template-columns: repeat(2, 1fr); }
         }
 
         @media (max-width: 768px) {
-            .sidebar {
-                width: 100%;
-                height: auto;
-                position: relative;
-                padding: 12px 0;
-                flex-direction: row;
-                overflow-x: auto;
-                overflow-y: visible;
-                z-index: 500;
-            }
-
-            .main-wrapper {
-                margin-left: 0;
-            }
-
-            .sidebar-nav {
-                display: flex;
-                gap: 8px;
-                overflow-x: auto;
-                padding: 0 12px;
-            }
-
-            .nav-item {
-                white-space: nowrap;
-            }
-
-            .header {
-                flex-direction: column;
-                gap: 16px;
-                padding: 16px;
-            }
-
-            .search-section {
-                width: 100%;
-            }
-
-            .city-dropdown {
-                width: 100%;
-                min-width: unset;
-            }
-
-            .search-btn {
-                width: 100%;
-            }
-
-            .kpi-row {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 12px;
-            }
-
-            .content-wrapper {
-                padding: 16px;
-            }
-
-            .metrics-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .nav-links {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .kpi-row {
-                grid-template-columns: 1fr;
-            }
-
-            .weather-main {
-                flex-direction: column;
-            }
-
-            .weather-grid {
-                grid-template-columns: 1fr;
-            }
+            .sidebar { width: 100%; height: auto; position: relative; flex-direction: row; overflow-x: auto; }
+            .main-wrapper { margin-left: 0; }
+            .header { flex-direction: column; gap: 16px; }
+            .search-section { width: 100%; }
+            .city-dropdown { width: 100%; min-width: unset; }
+            .search-btn { width: 100%; }
+            .kpi-row { grid-template-columns: repeat(2, 1fr); }
+            .nav-links { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-<!-- SIDEBAR -->
 <div class="sidebar">
     <div class="sidebar-logo">
         <div class="sidebar-logo-icon">🌍</div>
@@ -671,7 +569,7 @@
     </div>
 
     <nav class="sidebar-nav">
-        <a href="Final_Dashboard.html" class="nav-item active">
+        <a href="index.html" class="nav-item active">
             <span class="nav-item-icon">📊</span>
             <span>Dashboard</span>
         </a>
@@ -698,9 +596,7 @@
     </nav>
 </div>
 
-<!-- MAIN CONTENT WRAPPER -->
 <div class="main-wrapper">
-    <!-- HEADER -->
     <div class="header">
         <div class="logo">
             <div class="logo-icon">🌍</div>
@@ -722,9 +618,7 @@
         </div>
     </div>
 
-    <!-- CONTENT AREA -->
     <div class="content-wrapper">
-        <!-- KPI CARDS -->
         <div class="kpi-row">
             <div class="kpi-card">
                 <div class="kpi-header">
@@ -765,13 +659,11 @@
             </div>
         </div>
 
-        <!-- MAIN GRID -->
         <div class="main-grid">
-            <!-- WEATHER CARD -->
             <div class="weather-card">
                 <div class="weather-header">
                     <div class="weather-title" id="weatherCity">Ahmedabad, Gujarat</div>
-                    <div class="weather-date" id="weatherDate">Saturday, March 21, 2026</div>
+                    <div class="weather-date" id="weatherDate">Sunday, March 22, 2026</div>
                 </div>
 
                 <div class="weather-main">
@@ -798,7 +690,6 @@
                 </div>
             </div>
 
-            <!-- TEMPERATURE TREND CHART -->
             <div class="chart-card">
                 <div class="chart-title">Temperature Trend (7 Days)</div>
                 <div class="chart-container">
@@ -807,7 +698,6 @@
             </div>
         </div>
 
-        <!-- ADDITIONAL METRICS -->
         <div class="full-width-card">
             <div class="full-width-title">Environmental Metrics</div>
             <div class="metrics-grid">
@@ -834,7 +724,6 @@
             </div>
         </div>
 
-        <!-- NAVIGATION LINKS TO OTHER PAGES -->
         <div class="nav-links">
             <a href="Final_Satellite_Hub.html" class="nav-link-card">
                 <div class="nav-link-icon">🛰️</div>
@@ -861,244 +750,95 @@
 </div>
 
 <script>
-    // Sample data structure for each city
     const cityData = {
         ahmedabad: {
-            name: "Ahmedabad, Gujarat",
-            temp: 24,
-            feelsLike: 26,
-            condition: "Partly Cloudy",
-            icon: "☁️",
-            humidity: 65,
-            wind: 12,
-            maxTemp: 38,
-            minTemp: 18,
-            aqi: 76,
-            aqiStatus: "Good",
-            greenIndex: 0.62,
-            soilMoisture: 42,
-            precipitation: 15,
-            tempTrend: [20, 21, 22, 23, 24, 23, 24],
-            dates: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7']
+            name: "Ahmedabad, Gujarat", temp: 24, feelsLike: 26, condition: "Partly Cloudy", icon: "☁️",
+            humidity: 65, wind: 12, maxTemp: 38, minTemp: 18, aqi: 76, aqiStatus: "Good",
+            greenIndex: 0.62, soilMoisture: 42, precipitation: 15,
+            tempTrend: [20, 21, 22, 23, 24, 23, 24], dates: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7']
         },
         mumbai: {
-            name: "Mumbai, Maharashtra",
-            temp: 28,
-            feelsLike: 31,
-            condition: "Humid",
-            icon: "🌦️",
-            humidity: 75,
-            wind: 18,
-            maxTemp: 35,
-            minTemp: 22,
-            aqi: 82,
-            aqiStatus: "Moderate",
-            greenIndex: 0.58,
-            soilMoisture: 38,
-            precipitation: 20,
-            tempTrend: [25, 26, 27, 28, 28, 27, 28],
-            dates: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7']
+            name: "Mumbai, Maharashtra", temp: 28, feelsLike: 31, condition: "Humid", icon: "🌦️",
+            humidity: 75, wind: 18, maxTemp: 35, minTemp: 22, aqi: 82, aqiStatus: "Moderate",
+            greenIndex: 0.58, soilMoisture: 38, precipitation: 20,
+            tempTrend: [25, 26, 27, 28, 28, 27, 28], dates: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7']
         },
         delhi: {
-            name: "Delhi, India",
-            temp: 26,
-            feelsLike: 28,
-            condition: "Clear",
-            icon: "☀️",
-            humidity: 55,
-            wind: 14,
-            maxTemp: 40,
-            minTemp: 16,
-            aqi: 65,
-            aqiStatus: "Good",
-            greenIndex: 0.45,
-            soilMoisture: 35,
-            precipitation: 10,
-            tempTrend: [22, 23, 24, 25, 26, 25, 26],
-            dates: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7']
+            name: "Delhi, India", temp: 26, feelsLike: 28, condition: "Clear", icon: "☀️",
+            humidity: 55, wind: 14, maxTemp: 40, minTemp: 16, aqi: 65, aqiStatus: "Good",
+            greenIndex: 0.45, soilMoisture: 35, precipitation: 10,
+            tempTrend: [22, 23, 24, 25, 26, 25, 26], dates: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7']
         },
         chennai: {
-            name: "Chennai, Tamil Nadu",
-            temp: 32,
-            feelsLike: 36,
-            condition: "Sunny",
-            icon: "☀️",
-            humidity: 70,
-            wind: 16,
-            maxTemp: 36,
-            minTemp: 26,
-            aqi: 72,
-            aqiStatus: "Moderate",
-            greenIndex: 0.52,
-            soilMoisture: 40,
-            precipitation: 8,
-            tempTrend: [30, 31, 31, 32, 32, 31, 32],
-            dates: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7']
+            name: "Chennai, Tamil Nadu", temp: 32, feelsLike: 36, condition: "Sunny", icon: "☀️",
+            humidity: 70, wind: 16, maxTemp: 36, minTemp: 26, aqi: 72, aqiStatus: "Moderate",
+            greenIndex: 0.52, soilMoisture: 40, precipitation: 8,
+            tempTrend: [30, 31, 31, 32, 32, 31, 32], dates: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7']
         },
         bengaluru: {
-            name: "Bengaluru, Karnataka",
-            temp: 22,
-            feelsLike: 23,
-            condition: "Cloudy",
-            icon: "🌥️",
-            humidity: 68,
-            wind: 10,
-            maxTemp: 32,
-            minTemp: 18,
-            aqi: 60,
-            aqiStatus: "Good",
-            greenIndex: 0.68,
-            soilMoisture: 50,
-            precipitation: 12,
-            tempTrend: [20, 20, 21, 21, 22, 22, 22],
-            dates: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7']
+            name: "Bengaluru, Karnataka", temp: 22, feelsLike: 23, condition: "Cloudy", icon: "🌥️",
+            humidity: 68, wind: 10, maxTemp: 32, minTemp: 18, aqi: 60, aqiStatus: "Good",
+            greenIndex: 0.68, soilMoisture: 50, precipitation: 12,
+            tempTrend: [20, 20, 21, 21, 22, 22, 22], dates: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7']
         }
     };
 
     let temperatureChart = null;
 
     function getTemperatureIcon(temp) {
-        if (temp < 15) {
-            return "❄️";
-        } else if (temp < 25) {
-            return "☁️";
-        } else if (temp < 35) {
-            return "☀️";
-        } else {
-            return "🔥";
-        }
-    }
-
-    function getWeatherIconBackgroundClass(temp) {
-        if (temp < 15) {
-            return "cold";
-        } else if (temp < 25) {
-            return "cold";
-        } else if (temp < 35) {
-            return "hot";
-        } else {
-            return "very-hot";
-        }
-    }
-
-    function getAQIConditionClass(aqi) {
-        if (aqi <= 50) {
-            return "good";
-        } else if (aqi <= 100) {
-            return "moderate";
-        } else {
-            return "bad";
-        }
+        if (temp < 15) return "❄️";
+        if (temp < 25) return "☁️";
+        if (temp < 35) return "☀️";
+        return "🔥";
     }
 
     function updateDashboard() {
         const selectedCity = document.getElementById('citySelect').value;
         const data = cityData[selectedCity];
 
-        // Update Temperature Icon Based on Temperature
         const tempIcon = getTemperatureIcon(data.temp);
         document.getElementById('tempIcon').textContent = tempIcon;
         document.getElementById('weatherIconContainer').textContent = tempIcon;
-        document.getElementById('weatherIconContainer').className = `weather-icon-container ${getWeatherIconBackgroundClass(data.temp)}`;
-
-        // Update KPI Cards
         document.getElementById('tempValue').textContent = `${data.temp}°C`;
         document.getElementById('aqiLargeValue').textContent = data.aqi;
         document.getElementById('aqiCondition').textContent = data.aqiStatus;
-        document.getElementById('aqiCondition').className = `aqi-condition ${getAQIConditionClass(data.aqi)}`;
-        
+        document.getElementById('aqiCondition').className = `aqi-condition ${data.aqiStatus.toLowerCase()}`;
         document.getElementById('soilValue').textContent = `${data.soilMoisture}%`;
         document.getElementById('precipValue').textContent = `${data.precipitation}mm`;
-
-        // Update Weather Card
         document.getElementById('weatherCity').textContent = data.name;
         document.getElementById('weatherTemp').textContent = `${data.temp}°`;
         document.getElementById('weatherCondition').textContent = data.condition;
         document.getElementById('weatherFeels').textContent = `Feels like ${data.feelsLike}°C`;
         document.getElementById('humidityValue').textContent = `${data.humidity}%`;
         document.getElementById('windValue').textContent = `${data.wind} km/h`;
-
-        // Update Metrics
         document.getElementById('maxTemp').textContent = `${data.maxTemp}°C`;
         document.getElementById('minTemp').textContent = `${data.minTemp}°C`;
         document.getElementById('aqiIndex').textContent = data.aqi;
         document.getElementById('greenIndex').textContent = data.greenIndex;
 
-        // Update Chart
         updateTemperatureChart(data);
     }
 
     function updateTemperatureChart(data) {
         const ctx = document.getElementById('temperatureChart').getContext('2d');
-        
-        if (temperatureChart) {
-            temperatureChart.destroy();
-        }
+        if (temperatureChart) temperatureChart.destroy();
 
         temperatureChart = new Chart(ctx, {
             type: 'line',
             data: {
                 labels: data.dates,
                 datasets: [{
-                    label: 'Temperature (°C)',
-                    data: data.tempTrend,
-                    borderColor: '#4caf50',
-                    backgroundColor: 'rgba(76, 175, 80, 0.1)',
-                    borderWidth: 3,
-                    fill: true,
-                    tension: 0.4,
-                    pointRadius: 5,
-                    pointBackgroundColor: '#4caf50',
-                    pointBorderColor: '#fff',
-                    pointBorderWidth: 2,
-                    pointHoverRadius: 7
+                    label: 'Temperature (°C)', data: data.tempTrend,
+                    borderColor: '#4caf50', backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                    borderWidth: 3, fill: true, tension: 0.4, pointRadius: 5
                 }]
             },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: false,
-                        ticks: {
-                            color: '#558b2f',
-                            font: {
-                                size: 12,
-                                weight: 600
-                            }
-                        },
-                        grid: {
-                            color: 'rgba(76, 175, 80, 0.1)'
-                        }
-                    },
-                    x: {
-                        ticks: {
-                            color: '#558b2f',
-                            font: {
-                                size: 12
-                            }
-                        },
-                        grid: {
-                            display: false
-                        }
-                    }
-                }
-            }
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
         });
     }
 
-    // Update when city changes
     document.getElementById('citySelect').addEventListener('change', updateDashboard);
-
-    // Initialize dashboard on page load
-    window.addEventListener('load', () => {
-        updateDashboard();
-    });
+    window.addEventListener('load', updateDashboard);
 </script>
 
 </body>
