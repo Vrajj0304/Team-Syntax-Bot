@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_87d5404136934743b72e5bca7d52e64d {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+<div style="position: fixed; bottom: 30px; right: 30px; width: 180px; z-index:9999; background: white; padding: 10px; border: 2px solid grey; font-size: 12px;">
+  <b>🌧️ Rainfall (mm/hr)</b><br>
+  <i style="background:#FF0000;width:10px;height:10px;display:inline-block"></i> Extreme Rain<br>
+  <i style="background:#FF00FF;width:10px;height:10px;display:inline-block"></i> Heavy Rain<br>
+  <i style="background:#0000FF;width:10px;height:10px;display:inline-block"></i> Moderate Rain<br>
+  <i style="background:#00FFFF;width:10px;height:10px;display:inline-block"></i> Light Rain<br>
+  <i style="background:#FFA500;width:10px;height:10px;display:inline-block"></i> No Rain
+</div>
+    
+            <div class="folium-map" id="map_87d5404136934743b72e5bca7d52e64d" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_87d5404136934743b72e5bca7d52e64d = L.map(
+                "map_87d5404136934743b72e5bca7d52e64d",
+                {
+                    center: [22.5937, 78.9629],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 5,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+            L.control.scale().addTo(map_87d5404136934743b72e5bca7d52e64d);
+
+            
+
+        
+    
+            var tile_layer_168d87d5c7c0379c61dd34418f3dfe50 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_168d87d5c7c0379c61dd34418f3dfe50.addTo(map_87d5404136934743b72e5bca7d52e64d);
+        
+    
+            var tile_layer_82e19680d142e2f6645cc6b7add0f0bb = L.tileLayer(
+                "https://earthengine.googleapis.com/v1/projects/enviorsense/maps/b3c5bdcf104354b57795ee2f8e5a9194-061a17edf500b25339456b7f9fafd49f/tiles/{z}/{x}/{y}",
+                {
+  "minZoom": 0,
+  "maxZoom": 18,
+  "maxNativeZoom": 18,
+  "noWrap": false,
+  "attribution": "Google Earth Engine",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_82e19680d142e2f6645cc6b7add0f0bb.addTo(map_87d5404136934743b72e5bca7d52e64d);
+        
+    
+            var marker_4e1f183eab185bf8fba36af7951311be = L.marker(
+                [16.5069, 80.5167],
+                {
+}
+            ).addTo(map_87d5404136934743b72e5bca7d52e64d);
+        
+    
+            var icon_1231e1db1f1df55e5713724126f26bfd = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "black",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_355130c335565fdb75976c22a02d9697 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_53aea98dccb67942040fbb5a43465d61 = $(`<div id="html_53aea98dccb67942040fbb5a43465d61" style="width: 100.0%; height: 100.0%;"><b>Amaravati</b><br>Rainfall: N/A mm/hr</div>`)[0];
+                popup_355130c335565fdb75976c22a02d9697.setContent(html_53aea98dccb67942040fbb5a43465d61);
+            
+        
+
+        marker_4e1f183eab185bf8fba36af7951311be.bindPopup(popup_355130c335565fdb75976c22a02d9697)
+        ;
+
+        
+    
+    
+            marker_4e1f183eab185bf8fba36af7951311be.bindTooltip(
+                `<div>
+                     Amaravati
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_4e1f183eab185bf8fba36af7951311be.setIcon(icon_1231e1db1f1df55e5713724126f26bfd);
+            
+    
+            var marker_26efe5cbde141d6c68310661a85e62bc = L.marker(
+                [27.0844, 93.6053],
+                {
+}
+            ).addTo(map_87d5404136934743b72e5bca7d52e64d);
+        
+    
+            var icon_ad4faa1c6fbda657772c3ef9a7b0d827 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "black",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_af2b699843c1eaa438ba1c60e16cbde5 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_6f656ea5bf7dd3fb45ac5250974fd4fc = $(`<div id="html_6f656ea5bf7dd3fb45ac5250974fd4fc" style="width: 100.0%; height: 100.0%;"><b>Itanagar</b><br>Rainfall: 0 mm/hr</div>`)[0];
+                popup_af2b699843c1eaa438ba1c60e16cbde5.setContent(html_6f656ea5bf7dd3fb45ac5250974fd4fc);
+            
+        
+
+        marker_26efe5cbde141d6c68310661a85e62bc.bindPopup(popup_af2b699843c1eaa438ba1c60e16cbde5)
+        ;
+
+        
+    
+    
+            marker_26efe5cbde141d6c68310661a85e62bc.bindTooltip(
+                `<div>
+                     Itanagar
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_26efe5cbde141d6c68310661a85e62bc.setIcon(icon_ad4faa1c6fbda657772c3ef9a7b0d827);
+            
+    
+            var marker_1ad5a9a6ea0fdd39ad57488791181b61 = L.marker(
+                [26.1433, 91.7898],
+                {
+}
+            ).addTo(map_87d5404136934743b72e5bca7d52e64d);
+        
+    
+            var icon_c32539ef7c5a8a722c18833f1a5931f9 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "black",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_adc9ce7fbde3f1ef3f12f9f15c5bd97f = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_3fa7960e89a37d7ca4ab301a3dbcc147 = $(`<div id="html_3fa7960e89a37d7ca4ab301a3dbcc147" style="width: 100.0%; height: 100.0%;"><b>Dispur</b><br>Rainfall: N/A mm/hr</div>`)[0];
+                popup_adc9ce7fbde3f1ef3f12f9f15c5bd97f.setContent(html_3fa7960e89a37d7ca4ab301a3dbcc147);
+            
+        
+
+        marker_1ad5a9a6ea0fdd39ad57488791181b61.bindPopup(popup_adc9ce7fbde3f1ef3f12f9f15c5bd97f)
+        ;
+
+        
+    
+    
+            marker_1ad5a9a6ea0fdd39ad57488791181b61.bindTooltip(
+                `<div>
+                     Dispur
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_1ad5a9a6ea0fdd39ad57488791181b61.setIcon(icon_c32539ef7c5a8a722c18833f1a5931f9);
+            
+    
+            var marker_01d60f6118a290a172deae79998e6fd7 = L.marker(
+                [25.5941, 85.1376],
+                {
+}
+            ).addTo(map_87d5404136934743b72e5bca7d52e64d);
+        
+    
+            var icon_90089294d126334b77a22eb5baae5f76 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "black",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_ca1f6d276538ac08f491532bbbc53e2b = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_194f124d52c21500a0bb3d8e840fa1d0 = $(`<div id="html_194f124d52c21500a0bb3d8e840fa1d0" style="width: 100.0%; height: 100.0%;"><b>Patna</b><br>Rainfall: 0 mm/hr</div>`)[0];
+                popup_ca1f6d276538ac08f491532bbbc53e2b.setContent(html_194f124d52c21500a0bb3d8e840fa1d0);
+            
+        
+
+        marker_01d60f6118a290a172deae79998e6fd7.bindPopup(popup_ca1f6d276538ac08f491532bbbc53e2b)
+        ;
+
+        
+    
+    
+            marker_01d60f6118a290a172deae79998e6fd7.bindTooltip(
+                `<div>
+                     Patna
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_01d60f6118a290a172deae79998e6fd7.setIcon(icon_90089294d126334b77a22eb5baae5f76);
+            
+    
+            var marker_d54cc5b5dcdc40defd1a3c555e8a8f41 = L.marker(
+                [21.2514, 81.6296],
+                {
+}
+            ).addTo(map_87d5404136934743b72e5bca7d52e64d);
+        
+    
+            var icon_24330df6543fbd594a2344705fd123c0 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "black",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_335c732b3bf3a297cb257d25734668e4 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_50a788163a38a6815de5243f15715572 = $(`<div id="html_50a788163a38a6815de5243f15715572" style="width: 100.0%; height: 100.0%;"><b>Raipur</b><br>Rainfall: N/A mm/hr</div>`)[0];
+                popup_335c732b3bf3a297cb257d25734668e4.setContent(html_50a788163a38a6815de5243f15715572);
+            
+        
+
+        marker_d54cc5b5dcdc40defd1a3c555e8a8f41.bindPopup(popup_335c732b3bf3a297cb257d25734668e4)
+        ;
+
+        
+    
+    
+            marker_d54cc5b5dcdc40defd1a3c555e8a8f41.bindTooltip(
+                `<div>
+                     Raipur
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_d54cc5b5dcdc40defd1a3c555e8a8f41.setIcon(icon_24330df6543fbd594a2344705fd123c0);
+            
+    
+            var marker_15a15be3645704e4697cdf5434f1508a = L.marker(
+                [15.4909, 73.8278],
+                {
+}
+            ).addTo(map_87d5404136934743b72e5bca7d52e64d);
+        
+    
+            var icon_034ea28505365de1057971918a2a7190 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "black",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_9009e55a46018a2a0432b65d71607cc7 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_903c242e199a9cb3dcb934a8c65c8f6a = $(`<div id="html_903c242e199a9cb3dcb934a8c65c8f6a" style="width: 100.0%; height: 100.0%;"><b>Panaji</b><br>Rainfall: N/A mm/hr</div>`)[0];
+                popup_9009e55a46018a2a0432b65d71607cc7.setContent(html_903c242e199a9cb3dcb934a8c65c8f6a);
+            
+        
+
+        marker_15a15be3645704e4697cdf5434f1508a.bindPopup(popup_9009e55a46018a2a0432b65d71607cc7)
+        ;
+
+        
+    
+    
+            marker_15a15be3645704e4697cdf5434f1508a.bindTooltip(
+                `<div>
+                     Panaji
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_15a15be3645704e4697cdf5434f1508a.setIcon(icon_034ea28505365de1057971918a2a7190);
+            
+    
+            var marker_65c68728f8dc815ee398389f819e3ef2 = L.marker(
+                [23.2156, 72.6369],
+                {
+}
+            ).addTo(map_87d5404136934743b72e5bca7d52e64d);
+        
+    
+            var icon_5a79f4c4cbbf20a05a723a3922471ee7 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "black",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_e2d6610b134c68254526266b0ffc7408 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_cdea80e632edb92bea6c3accb24a87dc = $(`<div id="html_cdea80e632edb92bea6c3accb24a87dc" style="width: 100.0%; height: 100.0%;"><b>Gandhinagar</b><br>Rainfall: 0 mm/hr</div>`)[0];
+                popup_e2d6610b134c68254526266b0ffc7408.setContent(html_cdea80e632edb92bea6c3accb24a87dc);
+            
+        
+
+        marker_65c68728f8dc815ee398389f819e3ef2.bindPopup(popup_e2d6610b134c68254526266b0ffc7408)
+        ;
+
+        
+    
+    
+            marker_65c68728f8dc815ee398389f819e3ef2.bindTooltip(
+                `<div>
+                     Gandhinagar
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_65c68728f8dc815ee398389f819e3ef2.setIcon(icon_5a79f4c4cbbf20a05a723a3922471ee7);
+            
+    
+            var marker_578370f1d10c0279759cc8761a1ab7eb = L.marker(
+                [30.7333, 76.7794],
+                {
+}
+            ).addTo(map_87d5404136934743b72e5bca7d52e64d);
+        
+    
+            var icon_90920d3f3c6046203399ab1f7488e544 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "black",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_903042f0a1a22fa52512c2389e7aab94 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_17dc71810fde6f5cd67dc1151c623870 = $(`<div id="html_17dc71810fde6f5cd67dc1151c623870" style="width: 100.0%; height: 100.0%;"><b>Chandigarh</b><br>Rainfall: 0 mm/hr</div>`)[0];
+                popup_903042f0a1a22fa52512c2389e7aab94.setContent(html_17dc71810fde6f5cd67dc1151c623870);
+            
+        
+
+        marker_578370f1d10c0279759cc8761a1ab7eb.bindPopup(popup_903042f0a1a22fa52512c2389e7aab94)
+        ;
+
+        
+    
+    
+            marker_578370f1d10c0279759cc8761a1ab7eb.bindTooltip(
+                `<div>
+                     Chandigarh
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_578370f1d10c0279759cc8761a1ab7eb.setIcon(icon_90920d3f3c6046203399ab1f7488e544);
+            
+    
+            var marker_b2c78882989d3d4edc2159cca8fa6dab = L.marker(
+                [31.1048, 77.1734],
+                {
+}
+            ).addTo(map_87d5404136934743b72e5bca7d52e64d);
+        
+    
+            var icon_a2f66c89347cb4465fd7c3b521026650 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "black",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_0388697a9b9bade29cf087cec38329a8 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_9d9b565854f42229ab5072691bd10fc0 = $(`<div id="html_9d9b565854f42229ab5072691bd10fc0" style="width: 100.0%; height: 100.0%;"><b>Shimla</b><br>Rainfall: 0 mm/hr</div>`)[0];
+                popup_0388697a9b9bade29cf087cec38329a8.setContent(html_9d9b565854f42229ab5072691bd10fc0);
+            
+        
+
+        marker_b2c78882989d3d4edc2159cca8fa6dab.bindPopup(popup_0388697a9b9bade29cf087cec38329a8)
+        ;
+
+        
+    
+    
+            marker_b2c78882989d3d4edc2159cca8fa6dab.bindTooltip(
+                `<div>
+                     Shimla
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_b2c78882989d3d4edc2159cca8fa6dab.setIcon(icon_a2f66c89347cb4465fd7c3b521026650);
+            
+    
+            var marker_1e9289d64231cd25d41ec5bf762fe8ea = L.marker(
+                [23.3441, 85.309],
+                {
+}
+            ).addTo(map_87d5404136934743b72e5bca7d52e64d);
+        
+    
+            var icon_7cfc2b55ad5bd9b1d82436211e7ca072 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "black",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_abbac6c48170755faf2fc23632e75435 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_ae8960a7820fe68f79b1fe6ae765cf1e = $(`<div id="html_ae8960a7820fe68f79b1fe6ae765cf1e" style="width: 100.0%; height: 100.0%;"><b>Ranchi</b><br>Rainfall: 0 mm/hr</div>`)[0];
+                popup_abbac6c48170755faf2fc23632e75435.setContent(html_ae8960a7820fe68f79b1fe6ae765cf1e);
+            
+        
+
+        marker_1e9289d64231cd25d41ec5bf762fe8ea.bindPopup(popup_abbac6c48170755faf2fc23632e75435)
+        ;
+
+        
+    
+    
+            marker_1e9289d64231cd25d41ec5bf762fe8ea.bindTooltip(
+                `<div>
+                     Ranchi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_1e9289d64231cd25d41ec5bf762fe8ea.setIcon(icon_7cfc2b55ad5bd9b1d82436211e7ca072);
+            
+    
+            var marker_e34066cb2bdcd54a58c36c5341e83452 = L.marker(
+                [12.9716, 77.5946],
+                {
+}
+            ).addTo(map_87d5404136934743b72e5bca7d52e64d);
+        
+    
+            var icon_5d05770b6645f626aabf66d84f018789 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "black",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_497c097f89ebae2d1c074924eeede5a1 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_faef682321730ad67d52bfac18bae670 = $(`<div id="html_faef682321730ad67d52bfac18bae670" style="width: 100.0%; height: 100.0%;"><b>Bengaluru</b><br>Rainfall: 0 mm/hr</div>`)[0];
+                popup_497c097f89ebae2d1c074924eeede5a1.setContent(html_faef682321730ad67d52bfac18bae670);
+            
+        
+
+        marker_e34066cb2bdcd54a58c36c5341e83452.bindPopup(popup_497c097f89ebae2d1c074924eeede5a1)
+        ;
+
+        
+    
+    
+            marker_e34066cb2bdcd54a58c36c5341e83452.bindTooltip(
+                `<div>
+                     Bengaluru
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_e34066cb2bdcd54a58c36c5341e83452.setIcon(icon_5d05770b6645f626aabf66d84f018789);
+            
+    
+            var marker_a258e08d86c0472e20a7a2d12404c91a = L.marker(
+                [8.5241, 76.9366],
+                {
+}
+            ).addTo(map_87d5404136934743b72e5bca7d52e64d);
+        
+    
+            var icon_2fe4bdcb0c091b55f010b6d3287b72e7 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "black",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_5781063770739dd712ec0805fdcc1a8a = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_26f034a77cef165750df98d2503c5a51 = $(`<div id="html_26f034a77cef165750df98d2503c5a51" style="width: 100.0%; height: 100.0%;"><b>Thiruvananthapuram</b><br>Rainfall: 0 mm/hr</div>`)[0];
+                popup_5781063770739dd712ec0805fdcc1a8a.setContent(html_26f034a77cef165750df98d2503c5a51);
+            
+        
+
+        marker_a258e08d86c0472e20a7a2d12404c91a.bindPopup(popup_5781063770739dd712ec0805fdcc1a8a)
+        ;
+
+        
+    
+    
+            marker_a258e08d86c0472e20a7a2d12404c91a.bindTooltip(
+                `<div>
+                     Thiruvananthapuram
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_a258e08d86c0472e20a7a2d12404c91a.setIcon(icon_2fe4bdcb0c091b55f010b6d3287b72e7);
+            
+    
+            var marker_db63da1459c2f8e0b607fb621bc7978d = L.marker(
+                [23.2599, 77.4126],
+                {
+}
+            ).addTo(map_87d5404136934743b72e5bca7d52e64d);
+        
+    
+            var icon_354fb6cf8abfcace642410c189275a18 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "black",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_87125fc515dd7ab621c722054d087773 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_bb0b70e4e0e5b0b7d018f6c26b524f64 = $(`<div id="html_bb0b70e4e0e5b0b7d018f6c26b524f64" style="width: 100.0%; height: 100.0%;"><b>Bhopal</b><br>Rainfall: N/A mm/hr</div>`)[0];
+                popup_87125fc515dd7ab621c722054d087773.setContent(html_bb0b70e4e0e5b0b7d018f6c26b524f64);
+            
+        
+
+        marker_db63da1459c2f8e0b607fb621bc7978d.bindPopup(popup_87125fc515dd7ab621c722054d087773)
+        ;
+
+        
+    
+    
+            marker_db63da1459c2f8e0b607fb621bc7978d.bindTooltip(
+                `<div>
+                     Bhopal
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_db63da1459c2f8e0b607fb621bc7978d.setIcon(icon_354fb6cf8abfcace642410c189275a18);
+            
+    
+            var marker_b31e8c4792f3b2b09d4e4660120dee0a = L.marker(
+                [19.076, 72.8777],
+                {
+}
+            ).addTo(map_87d5404136934743b72e5bca7d52e64d);
+        
+    
+            var icon_75d66de8d9494416b31b996cc7f9acb2 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "black",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_8741ae729feb3c37ac09bddf6decda4d = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_9ecd3db407bdc772b175f6c7bb229303 = $(`<div id="html_9ecd3db407bdc772b175f6c7bb229303" style="width: 100.0%; height: 100.0%;"><b>Mumbai</b><br>Rainfall: 0 mm/hr</div>`)[0];
+                popup_8741ae729feb3c37ac09bddf6decda4d.setContent(html_9ecd3db407bdc772b175f6c7bb229303);
+            
+        
+
+        marker_b31e8c4792f3b2b09d4e4660120dee0a.bindPopup(popup_8741ae729feb3c37ac09bddf6decda4d)
+        ;
+
+        
+    
+    
+            marker_b31e8c4792f3b2b09d4e4660120dee0a.bindTooltip(
+                `<div>
+                     Mumbai
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_b31e8c4792f3b2b09d4e4660120dee0a.setIcon(icon_75d66de8d9494416b31b996cc7f9acb2);
+            
+    
+            var marker_59fb42f877f0f61ad3ca9401d04bb157 = L.marker(
+                [24.817, 93.9368],
+                {
+}
+            ).addTo(map_87d5404136934743b72e5bca7d52e64d);
+        
+    
+            var icon_c65bb7fa039ff1e7fa8c2f86d6bb5653 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "black",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_f9e3c55025fe59ecf19bcc3981986693 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_57d4219e8c6e0ebe6e539fe061c75319 = $(`<div id="html_57d4219e8c6e0ebe6e539fe061c75319" style="width: 100.0%; height: 100.0%;"><b>Imphal</b><br>Rainfall: 0 mm/hr</div>`)[0];
+                popup_f9e3c55025fe59ecf19bcc3981986693.setContent(html_57d4219e8c6e0ebe6e539fe061c75319);
+            
+        
+
+        marker_59fb42f877f0f61ad3ca9401d04bb157.bindPopup(popup_f9e3c55025fe59ecf19bcc3981986693)
+        ;
+
+        
+    
+    
+            marker_59fb42f877f0f61ad3ca9401d04bb157.bindTooltip(
+                `<div>
+                     Imphal
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_59fb42f877f0f61ad3ca9401d04bb157.setIcon(icon_c65bb7fa039ff1e7fa8c2f86d6bb5653);
+            
+    
+            var marker_19a5498e281fe342022f6c0f31bb8b98 = L.marker(
+                [25.5788, 91.8833],
+                {
+}
+            ).addTo(map_87d5404136934743b72e5bca7d52e64d);
+        
+    
+            var icon_4645e5e8a08586980e51799c42722b82 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "black",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_104aee3df50a45eb57a2949fdb6b2e1b = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_8a5f2fee06347809152220c54d54e8f0 = $(`<div id="html_8a5f2fee06347809152220c54d54e8f0" style="width: 100.0%; height: 100.0%;"><b>Shillong</b><br>Rainfall: 0 mm/hr</div>`)[0];
+                popup_104aee3df50a45eb57a2949fdb6b2e1b.setContent(html_8a5f2fee06347809152220c54d54e8f0);
+            
+        
+
+        marker_19a5498e281fe342022f6c0f31bb8b98.bindPopup(popup_104aee3df50a45eb57a2949fdb6b2e1b)
+        ;
+
+        
+    
+    
+            marker_19a5498e281fe342022f6c0f31bb8b98.bindTooltip(
+                `<div>
+                     Shillong
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_19a5498e281fe342022f6c0f31bb8b98.setIcon(icon_4645e5e8a08586980e51799c42722b82);
+            
+    
+            var marker_3c7d2fd2da79163b58d7063f95d3835a = L.marker(
+                [23.7271, 92.7176],
+                {
+}
+            ).addTo(map_87d5404136934743b72e5bca7d52e64d);
+        
+    
+            var icon_2df10e3376b5d22f1ab02b7f14a00419 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "black",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_d9ec1c037fb82397f7d141bc5ae0bfa6 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_24b52fc1a8af4b3acd5001354ae6bfd8 = $(`<div id="html_24b52fc1a8af4b3acd5001354ae6bfd8" style="width: 100.0%; height: 100.0%;"><b>Aizawl</b><br>Rainfall: N/A mm/hr</div>`)[0];
+                popup_d9ec1c037fb82397f7d141bc5ae0bfa6.setContent(html_24b52fc1a8af4b3acd5001354ae6bfd8);
+            
+        
+
+        marker_3c7d2fd2da79163b58d7063f95d3835a.bindPopup(popup_d9ec1c037fb82397f7d141bc5ae0bfa6)
+        ;
+
+        
+    
+    
+            marker_3c7d2fd2da79163b58d7063f95d3835a.bindTooltip(
+                `<div>
+                     Aizawl
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_3c7d2fd2da79163b58d7063f95d3835a.setIcon(icon_2df10e3376b5d22f1ab02b7f14a00419);
+            
+    
+            var marker_777142a8b04300baf27fdc42af3a89cb = L.marker(
+                [25.6751, 94.1086],
+                {
+}
+            ).addTo(map_87d5404136934743b72e5bca7d52e64d);
+        
+    
+            var icon_9ce76177d4eb9165b24ee2b91aa2ed03 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "black",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_330011cd0bef0994485560be74b6a39e = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_ae0f5ae043669fd3b5d8cbfa02339ef0 = $(`<div id="html_ae0f5ae043669fd3b5d8cbfa02339ef0" style="width: 100.0%; height: 100.0%;"><b>Kohima</b><br>Rainfall: N/A mm/hr</div>`)[0];
+                popup_330011cd0bef0994485560be74b6a39e.setContent(html_ae0f5ae043669fd3b5d8cbfa02339ef0);
+            
+        
+
+        marker_777142a8b04300baf27fdc42af3a89cb.bindPopup(popup_330011cd0bef0994485560be74b6a39e)
+        ;
+
+        
+    
+    
+            marker_777142a8b04300baf27fdc42af3a89cb.bindTooltip(
+                `<div>
+                     Kohima
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_777142a8b04300baf27fdc42af3a89cb.setIcon(icon_9ce76177d4eb9165b24ee2b91aa2ed03);
+            
+    
+            var marker_295e166449014b3ff2972553cb61a1be = L.marker(
+                [20.2961, 85.8245],
+                {
+}
+            ).addTo(map_87d5404136934743b72e5bca7d52e64d);
+        
+    
+            var icon_537aaa88c73854c7a80e0d46e61cf8e0 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "black",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_ea135311f12ff8bd273c4f47704df1a1 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_6589fddf9157dc15836f9420d6047c8f = $(`<div id="html_6589fddf9157dc15836f9420d6047c8f" style="width: 100.0%; height: 100.0%;"><b>Bhubaneswar</b><br>Rainfall: 0 mm/hr</div>`)[0];
+                popup_ea135311f12ff8bd273c4f47704df1a1.setContent(html_6589fddf9157dc15836f9420d6047c8f);
+            
+        
+
+        marker_295e166449014b3ff2972553cb61a1be.bindPopup(popup_ea135311f12ff8bd273c4f47704df1a1)
+        ;
+
+        
+    
+    
+            marker_295e166449014b3ff2972553cb61a1be.bindTooltip(
+                `<div>
+                     Bhubaneswar
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_295e166449014b3ff2972553cb61a1be.setIcon(icon_537aaa88c73854c7a80e0d46e61cf8e0);
+            
+    
+            var marker_e2c7bfac575a5d356a7a0caa54928cfc = L.marker(
+                [26.9124, 75.7873],
+                {
+}
+            ).addTo(map_87d5404136934743b72e5bca7d52e64d);
+        
+    
+            var icon_8e1b003b092cf51b65d2bfcc02e49d17 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "black",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_4fcc2762bf052a63a41da911b16739a3 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_fe3b3d8ed4142da705fe3d5927b66260 = $(`<div id="html_fe3b3d8ed4142da705fe3d5927b66260" style="width: 100.0%; height: 100.0%;"><b>Jaipur</b><br>Rainfall: 0 mm/hr</div>`)[0];
+                popup_4fcc2762bf052a63a41da911b16739a3.setContent(html_fe3b3d8ed4142da705fe3d5927b66260);
+            
+        
+
+        marker_e2c7bfac575a5d356a7a0caa54928cfc.bindPopup(popup_4fcc2762bf052a63a41da911b16739a3)
+        ;
+
+        
+    
+    
+            marker_e2c7bfac575a5d356a7a0caa54928cfc.bindTooltip(
+                `<div>
+                     Jaipur
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_e2c7bfac575a5d356a7a0caa54928cfc.setIcon(icon_8e1b003b092cf51b65d2bfcc02e49d17);
+            
+    
+            var marker_e6a630c9890bb7f27e5935d8d4300ee7 = L.marker(
+                [27.3314, 88.6138],
+                {
+}
+            ).addTo(map_87d5404136934743b72e5bca7d52e64d);
+        
+    
+            var icon_6e7b3967149bbd98d82ff63295b3dde3 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "black",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_f86e05f9fc6fc8901100ac24d96af38c = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_b68a3349c16d5eb64e9f7c1bd1f6534e = $(`<div id="html_b68a3349c16d5eb64e9f7c1bd1f6534e" style="width: 100.0%; height: 100.0%;"><b>Gangtok</b><br>Rainfall: 0 mm/hr</div>`)[0];
+                popup_f86e05f9fc6fc8901100ac24d96af38c.setContent(html_b68a3349c16d5eb64e9f7c1bd1f6534e);
+            
+        
+
+        marker_e6a630c9890bb7f27e5935d8d4300ee7.bindPopup(popup_f86e05f9fc6fc8901100ac24d96af38c)
+        ;
+
+        
+    
+    
+            marker_e6a630c9890bb7f27e5935d8d4300ee7.bindTooltip(
+                `<div>
+                     Gangtok
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_e6a630c9890bb7f27e5935d8d4300ee7.setIcon(icon_6e7b3967149bbd98d82ff63295b3dde3);
+            
+    
+            var marker_950f3120659742a7dd8ea3e2d061ec83 = L.marker(
+                [13.0827, 80.2707],
+                {
+}
+            ).addTo(map_87d5404136934743b72e5bca7d52e64d);
+        
+    
+            var icon_7b43a2ef5d02a46c6aee6dcc0afe7ff8 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "black",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_4ef32ad0c2e47e900c0b8b82cdb51853 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_746585b431629abacd1756af1dfbc51f = $(`<div id="html_746585b431629abacd1756af1dfbc51f" style="width: 100.0%; height: 100.0%;"><b>Chennai</b><br>Rainfall: N/A mm/hr</div>`)[0];
+                popup_4ef32ad0c2e47e900c0b8b82cdb51853.setContent(html_746585b431629abacd1756af1dfbc51f);
+            
+        
+
+        marker_950f3120659742a7dd8ea3e2d061ec83.bindPopup(popup_4ef32ad0c2e47e900c0b8b82cdb51853)
+        ;
+
+        
+    
+    
+            marker_950f3120659742a7dd8ea3e2d061ec83.bindTooltip(
+                `<div>
+                     Chennai
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_950f3120659742a7dd8ea3e2d061ec83.setIcon(icon_7b43a2ef5d02a46c6aee6dcc0afe7ff8);
+            
+    
+            var marker_567ca16d39a99e264f24d946f62fb3be = L.marker(
+                [17.385, 78.4867],
+                {
+}
+            ).addTo(map_87d5404136934743b72e5bca7d52e64d);
+        
+    
+            var icon_d3a1469406a7caf563e900928023282c = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "black",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_9830d244cdcc5fea357d2bd82f24a2b8 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_bd8c97719529b3692e7e204a511eb504 = $(`<div id="html_bd8c97719529b3692e7e204a511eb504" style="width: 100.0%; height: 100.0%;"><b>Hyderabad</b><br>Rainfall: N/A mm/hr</div>`)[0];
+                popup_9830d244cdcc5fea357d2bd82f24a2b8.setContent(html_bd8c97719529b3692e7e204a511eb504);
+            
+        
+
+        marker_567ca16d39a99e264f24d946f62fb3be.bindPopup(popup_9830d244cdcc5fea357d2bd82f24a2b8)
+        ;
+
+        
+    
+    
+            marker_567ca16d39a99e264f24d946f62fb3be.bindTooltip(
+                `<div>
+                     Hyderabad
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_567ca16d39a99e264f24d946f62fb3be.setIcon(icon_d3a1469406a7caf563e900928023282c);
+            
+    
+            var marker_4bff151fb2eb1efb9548e364102bff34 = L.marker(
+                [23.8315, 91.2868],
+                {
+}
+            ).addTo(map_87d5404136934743b72e5bca7d52e64d);
+        
+    
+            var icon_c09fbef8006806339a3ef33649d3bc1f = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "black",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_ad38b82c36cd37b9791e6a1bc0ffd3e2 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_32a729fd06f6733bffe6880fc8bc1f74 = $(`<div id="html_32a729fd06f6733bffe6880fc8bc1f74" style="width: 100.0%; height: 100.0%;"><b>Agartala</b><br>Rainfall: 0 mm/hr</div>`)[0];
+                popup_ad38b82c36cd37b9791e6a1bc0ffd3e2.setContent(html_32a729fd06f6733bffe6880fc8bc1f74);
+            
+        
+
+        marker_4bff151fb2eb1efb9548e364102bff34.bindPopup(popup_ad38b82c36cd37b9791e6a1bc0ffd3e2)
+        ;
+
+        
+    
+    
+            marker_4bff151fb2eb1efb9548e364102bff34.bindTooltip(
+                `<div>
+                     Agartala
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_4bff151fb2eb1efb9548e364102bff34.setIcon(icon_c09fbef8006806339a3ef33649d3bc1f);
+            
+    
+            var marker_55d788c568b31825b200fa1fd64d85cc = L.marker(
+                [26.8467, 80.9462],
+                {
+}
+            ).addTo(map_87d5404136934743b72e5bca7d52e64d);
+        
+    
+            var icon_6b62318f8606056d50b0323569ab2c76 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "black",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_8a7326828c146e777bff7f9bbe431949 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_6dab4b162b04ed99a2faa05500ec8bba = $(`<div id="html_6dab4b162b04ed99a2faa05500ec8bba" style="width: 100.0%; height: 100.0%;"><b>Lucknow</b><br>Rainfall: 0 mm/hr</div>`)[0];
+                popup_8a7326828c146e777bff7f9bbe431949.setContent(html_6dab4b162b04ed99a2faa05500ec8bba);
+            
+        
+
+        marker_55d788c568b31825b200fa1fd64d85cc.bindPopup(popup_8a7326828c146e777bff7f9bbe431949)
+        ;
+
+        
+    
+    
+            marker_55d788c568b31825b200fa1fd64d85cc.bindTooltip(
+                `<div>
+                     Lucknow
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_55d788c568b31825b200fa1fd64d85cc.setIcon(icon_6b62318f8606056d50b0323569ab2c76);
+            
+    
+            var marker_f9a24c217643c41af26bf90b543f4fa3 = L.marker(
+                [30.3165, 78.0322],
+                {
+}
+            ).addTo(map_87d5404136934743b72e5bca7d52e64d);
+        
+    
+            var icon_1f19f201a12aefe2066c49c6df58480e = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "black",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_03060aa5db433f636825b464cc5b50dd = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_367cb7a4626eb3029c82c7d045142295 = $(`<div id="html_367cb7a4626eb3029c82c7d045142295" style="width: 100.0%; height: 100.0%;"><b>Dehradun</b><br>Rainfall: N/A mm/hr</div>`)[0];
+                popup_03060aa5db433f636825b464cc5b50dd.setContent(html_367cb7a4626eb3029c82c7d045142295);
+            
+        
+
+        marker_f9a24c217643c41af26bf90b543f4fa3.bindPopup(popup_03060aa5db433f636825b464cc5b50dd)
+        ;
+
+        
+    
+    
+            marker_f9a24c217643c41af26bf90b543f4fa3.bindTooltip(
+                `<div>
+                     Dehradun
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_f9a24c217643c41af26bf90b543f4fa3.setIcon(icon_1f19f201a12aefe2066c49c6df58480e);
+            
+    
+            var marker_21667141a3ecc6f529ecda9be3615edf = L.marker(
+                [22.5726, 88.3639],
+                {
+}
+            ).addTo(map_87d5404136934743b72e5bca7d52e64d);
+        
+    
+            var icon_237354c87bffb44937ae38fd9e10a7c0 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "black",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_8778088d9dc4c6a1e9a9bb460cd3eb60 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_563bd377e90cc0aa00f735c168e54554 = $(`<div id="html_563bd377e90cc0aa00f735c168e54554" style="width: 100.0%; height: 100.0%;"><b>Kolkata</b><br>Rainfall: N/A mm/hr</div>`)[0];
+                popup_8778088d9dc4c6a1e9a9bb460cd3eb60.setContent(html_563bd377e90cc0aa00f735c168e54554);
+            
+        
+
+        marker_21667141a3ecc6f529ecda9be3615edf.bindPopup(popup_8778088d9dc4c6a1e9a9bb460cd3eb60)
+        ;
+
+        
+    
+    
+            marker_21667141a3ecc6f529ecda9be3615edf.bindTooltip(
+                `<div>
+                     Kolkata
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_21667141a3ecc6f529ecda9be3615edf.setIcon(icon_237354c87bffb44937ae38fd9e10a7c0);
+            
+    
+            var layer_control_054ac296a3d5143d616cc79ecaad929b_layers = {
+                base_layers : {
+                    "openstreetmap" : tile_layer_168d87d5c7c0379c61dd34418f3dfe50,
+                },
+                overlays :  {
+                    "Global Rainfall (Land Only)" : tile_layer_82e19680d142e2f6645cc6b7add0f0bb,
+                },
+            };
+            let layer_control_054ac296a3d5143d616cc79ecaad929b = L.control.layers(
+                layer_control_054ac296a3d5143d616cc79ecaad929b_layers.base_layers,
+                layer_control_054ac296a3d5143d616cc79ecaad929b_layers.overlays,
+                {
+  "position": "topright",
+  "collapsed": true,
+  "autoZIndex": true,
+}
+            ).addTo(map_87d5404136934743b72e5bca7d52e64d);
+
+        
+</script>
+</html>
