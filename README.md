@@ -51,8 +51,8 @@ Anomaly Detection: AI-driven alerts for sudden changes in vegetation index or po
 Urban Analytics: Specific modules for tracking Heat Islands and Land Use/Land Cover (LULC) changes.
 
 Team Members:
-Kushal Jain - https://www.linkedin.com/in/kushaljain11/
-Jainil Khatri - https://www.linkedin.com/in/jainil-khatri-6b1923315/
-Mayan Barwal - www.linkedin.com/in/mayan-barwal-00594a329
-Sneh Bhalodia - https://www.linkedin.com/in/sneh-bhalodia-94814431b/
-Vraj Agarwal - https://www.linkedin.com/in/vraj-agrawal
+Kushal Jain - https://www.linkedin.com/in/kushaljain11/ .
+Jainil Khatri - https://www.linkedin.com/in/jainil-khatri-6b1923315/ .
+Mayan Barwal - www.linkedin.com/in/mayan-barwal-00594a329 .
+Sneh Bhalodia - https://www.linkedin.com/in/sneh-bhalodia-94814431b/ .
+Vraj Agarwal - https://www.linkedin.com/in/vraj-agrawal .
