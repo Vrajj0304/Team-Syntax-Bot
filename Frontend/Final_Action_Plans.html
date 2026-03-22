@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Action Plans - EcoWeather</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
+            color: #2c3e50;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(135deg, #1b5e20 0%, #2d5016 100%);
+            padding: 24px 0;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 2px 0 8px rgba(45, 80, 22, 0.2);
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 20px 30px;
+            border-bottom: 2px solid rgba(76, 175, 80, 0.3);
+        }
+
+        .sidebar-logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #4caf50, #2d5016);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 28px;
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+        }
+
+        .sidebar-logo-text h2 {
+            color: #fff;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .sidebar-logo-text p {
+            color: #a5d6a7;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 0 12px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 16px;
+            color: #a5d6a7;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s;
+            margin-bottom: 8px;
+            font-size: 15px;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .nav-item:hover {
+            background: rgba(76, 175, 80, 0.15);
+            color: #fff;
+            transform: translateX(4px);
+        }
+
+        .nav-item.active {
+            background: rgba(76, 175, 80, 0.25);
+            color: #fff;
+            border-left: 4px solid #4caf50;
+            padding-left: 12px;
+        }
+
+        .nav-item-icon {
+            font-size: 20px;
+            min-width: 24px;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            margin-left: 280px;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            background: #fff;
+            padding: 24px 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.1);
+            flex-shrink: 0;
+            border-bottom: 2px solid #c8e6c9;
+            position: relative;
+            z-index: 100;
+        }
+
+        .header-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1b5e20;
+            margin-bottom: 4px;
+        }
+
+        .header-subtitle {
+            font-size: 14px;
+            color: #558b2f;
+        }
+
+        /* ===== CONTENT AREA ===== */
+        .content-wrapper {
+            flex: 1;
+            padding: 32px;
+            overflow-y: auto;
+        }
+
+        /* ===== FINDINGS SECTION ===== */
+        .findings-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1b5e20;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .findings-title-icon {
+            font-size: 28px;
+        }
+
+        /* ===== FINDING CARD ===== */
+        .findings-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .finding-card {
+            background: #fff;
+            border: 2px solid #c8e6c9;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.1);
+        }
+
+        .finding-card:hover {
+            box-shadow: 0 4px 16px rgba(76, 175, 80, 0.2);
+            border-color: #4caf50;
+            transform: translateY(-4px);
+        }
+
+        .finding-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px;
+            background: linear-gradient(135deg, #f1f8e9 0%, #fff 100%);
+            border-bottom: 2px solid #c8e6c9;
+        }
+
+        .finding-severity {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #fff;
+            flex-shrink: 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .severity-critical {
+            background: linear-gradient(135deg, #d84315 0%, #bf360c 100%);
+        }
+
+        .severity-high {
+            background: linear-gradient(135deg, #ff6f00 0%, #e65100 100%);
+        }
+
+        .severity-medium {
+            background: linear-gradient(135deg, #fdd835 0%, #fbc02d 100%);
+        }
+
+        .severity-low {
+            background: linear-gradient(135deg, #4caf50 0%, #388e3c 100%);
+        }
+
+        .finding-info {
+            flex: 1;
+        }
+
+        .finding-category {
+            font-size: 13px;
+            color: #558b2f;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .finding-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1b5e20;
+            margin-bottom: 6px;
+        }
+
+        .finding-source {
+            font-size: 12px;
+            color: #a5d6a7;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .finding-content {
+            padding: 20px;
+        }
+
+        .finding-description {
+            font-size: 14px;
+            color: #558b2f;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        /* ===== ACTION ITEMS ===== */
+        .action-items {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .action-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px;
+            background: linear-gradient(135deg, #f1f8e9 0%, #e8f5e9 100%);
+            border-left: 4px solid #4caf50;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+
+        .action-item:hover {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border-left-color: #2d5016;
+            transform: translateX(4px);
+        }
+
+        .action-icon {
+            font-size: 18px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .action-text {
+            flex: 1;
+            font-size: 13px;
+            color: #558b2f;
+            line-height: 1.5;
+        }
+
+        /* ===== METADATA ===== */
+        .finding-meta {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            padding-top: 16px;
+            border-top: 2px solid #e8f5e9;
+            margin-top: 16px;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: #a5d6a7;
+        }
+
+        .meta-icon {
+            font-size: 16px;
+        }
+
+        /* ===== FILTER BUTTONS ===== */
+        .filter-section {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border: 2px solid #c8e6c9;
+            border-radius: 20px;
+            background: #fff;
+            color: #558b2f;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .filter-btn:hover {
+            border-color: #4caf50;
+            background: #f1f8e9;
+            color: #1b5e20;
+        }
+
+        .filter-btn.active {
+            background: #4caf50;
+            border-color: #4caf50;
+            color: #fff;
+        }
+
+        /* ===== STATS SECTION ===== */
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: #fff;
+            border: 2px solid #c8e6c9;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            border-color: #4caf50;
+            background: #f1f8e9;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1b5e20;
+            margin-bottom: 6px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #558b2f;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f8e9;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #c8e6c9;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a5d6a7;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 240px;
+            }
+
+            .main-wrapper {
+                margin-left: 240px;
+            }
+
+            .stats-section {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                padding: 12px 0;
+                flex-direction: row;
+                overflow-x: auto;
+                overflow-y: visible;
+                z-index: 500;
+            }
+
+            .main-wrapper {
+                margin-left: 0;
+            }
+
+            .sidebar-nav {
+                display: flex;
+                gap: 8px;
+                overflow-x: auto;
+                padding: 0 12px;
+            }
+
+            .nav-item {
+                white-space: nowrap;
+            }
+
+            .header {
+                padding: 16px;
+            }
+
+            .header-title {
+                font-size: 24px;
+            }
+
+            .content-wrapper {
+                padding: 16px;
+            }
+
+            .stats-section {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .finding-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .filter-section {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-title {
+                font-size: 20px;
+            }
+
+            .stats-section {
+                grid-template-columns: 1fr;
+            }
+
+            .finding-header {
+                flex-direction: column;
+            }
+
+            .filter-btn {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <div class="sidebar-logo">
+        <div class="sidebar-logo-icon">🌍</div>
+        <div class="sidebar-logo-text">
+            <h2>EnviroSat</h2>
+            <p>Intelligence</p>
+        </div>
+    </div>
+
+    <nav class="sidebar-nav">
+        <a href="index.html" class="nav-item">
+            <span class="nav-item-icon">📊</span>
+            <span>Dashboard</span>
+        </a>
+        <a href="Final_Satellite_Hub.html" class="nav-item">
+            <span class="nav-item-icon">🛰️</span>
+            <span>Satellite Hub</span>
+        </a>
+        <a href="Final_Time_Series.html" class="nav-item">
+            <span class="nav-item-icon">📈</span>
+            <span>Time Series</span>
+        </a>
+        <a href="Final_Ml_Analytics.html" class="nav-item">
+            <span class="nav-item-icon">✨</span>
+            <span>ML Analytics</span>
+        </a>
+        <a href="Final_Geospatial_Maps.html" class="nav-item">
+            <span class="nav-item-icon">🗺️</span>
+            <span>Geospatial Maps</span>
+        </a>
+        <a href="MapView.html" class="nav-item">
+            <span class="nav-item-icon">➕</span>
+            <span>Environment Map +</span>
+        </a>
+        <a href="Final_Action_Plans.html" class="nav-item active">
+            <span class="nav-item-icon">📋</span>
+            <span>Action Plans</span>
+        </a>
+    </nav>
+</div>
+
+<div class="main-wrapper">
+    <div class="header">
+        <h1 class="header-title">Action Plans</h1>
+        <p class="header-subtitle">Strategic recommendations based on satellite findings and environmental analysis</p>
+    </div>
+
+    <div class="content-wrapper">
+        <div class="stats-section">
+            <div class="stat-card">
+                <div class="stat-value">12</div>
+                <div class="stat-label">Critical Findings</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">8</div>
+                <div class="stat-label">High Priority</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">15</div>
+                <div class="stat-label">Action Plans</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">5</div>
+                <div class="stat-label">Cities Monitored</div>
+            </div>
+        </div>
+
+        <div class="filter-section">
+            <button class="filter-btn active" onclick="filterFindings('all')">All Findings</button>
+            <button class="filter-btn" onclick="filterFindings('critical')">🔴 Critical</button>
+            <button class="filter-btn" onclick="filterFindings('high')">🟠 High</button>
+            <button class="filter-btn" onclick="filterFindings('medium')">🟡 Medium</button>
+            <button class="filter-btn" onclick="filterFindings('low')">🟢 Low</button>
+        </div>
+
+        <div class="findings-title">
+            <span class="findings-title-icon">⚠️</span>
+            Key Satellite Findings
+        </div>
+
+        <div class="findings-list">
+            <div class="finding-card" data-severity="critical">
+                <div class="finding-header">
+                    <div class="finding-severity severity-critical">Critical</div>
+                    <div class="finding-info">
+                        <div class="finding-category">
+                            <span>💨</span>
+                            Air Quality
+                        </div>
+                        <div class="finding-title">PM2.5 Levels Exceed Safe Limits</div>
+                        <div class="finding-source">MODIS • Delhi Region</div>
+                    </div>
+                </div>
+                <div class="finding-content">
+                    <div class="finding-description">
+                        Average PM2.5 levels in Delhi exceed 90 µg/m³, with hotspots in Anand Vihar and Shahdara. This exceeds WHO guidelines by 9x and poses severe health risks.
+                    </div>
+                    <div class="action-items">
+                        <div class="action-item">
+                            <span class="action-icon">✓</span>
+                            <span class="action-text"><strong>Immediate:</strong> Issue public health advisory and AQI alerts for vulnerable populations</span>
+                        </div>
+                        <div class="action-item">
+                            <span class="action-icon">✓</span>
+                            <span class="action-text"><strong>Short-term:</strong> Implement vehicle emission restrictions and industrial caps</span>
+                        </div>
+                        <div class="action-item">
+                            <span class="action-icon">✓</span>
+                            <span class="action-text"><strong>Long-term:</strong> Transition to renewable energy and green transport</span>
+                        </div>
+                    </div>
+                    <div class="finding-meta">
+                        <div class="meta-item">
+                            <span class="meta-icon">📊</span>
+                            <span>Data: MODIS</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-icon">📍</span>
+                            <span>Region: NCR Delhi</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-icon">⏱️</span>
+                            <span>Updated: Today</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="finding-card" data-severity="high">
+                <div class="finding-header">
+                    <div class="finding-severity severity-high">High</div>
+                    <div class="finding-info">
+                        <div class="finding-category">
+                            <span>💨</span>
+                            Air Quality
+                        </div>
+                        <div class="finding-title">High NO2 Concentration in Central Areas</div>
+                        <div class="finding-source">Sentinel-5P • Delhi</div>
+                    </div>
+                </div>
+                <div class="finding-content">
+                    <div class="finding-description">
+                        NO2 concentrations are significantly high in central areas such as Connaught Place, measuring up to 75 ppb. Primary source is vehicular emissions.
+                    </div>
+                    <div class="action-items">
+                        <div class="action-item">
+                            <span class="action-icon">✓</span>
+                            <span class="action-text"><strong>Traffic Management:</strong> Implement congestion pricing in high-emission zones</span>
+                        </div>
+                        <div class="action-item">
+                            <span class="action-icon">✓</span>
+                            <span class="action-text"><strong>Public Transport:</strong> Expand metro network and electric bus fleet</span>
+                        </div>
+                        <div class="action-item">
+                            <span class="action-icon">✓</span>
+                            <span class="action-text"><strong>Monitoring:</strong> Deploy real-time NO2 sensors at hotspots</span>
+                        </div>
+                    </div>
+                    <div class="finding-meta">
+                        <div class="meta-item">
+                            <span class="meta-icon">📊</span>
+                            <span>Data: Sentinel-5P</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-icon">📍</span>
+                            <span>Hotspot: Connaught Place</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-icon">⏱️</span>
+                            <span>Updated: Today</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="finding-card" data-severity="critical">
+                <div class="finding-header">
+                    <div class="finding-severity severity-critical">Critical</div>
+                    <div class="finding-info">
+                        <div class="finding-category">
+                            <span>🌡️</span>
+                            Urban Heat Island Effect
+                        </div>
+                        <div class="finding-title">Extreme Heat in Urban Centers</div>
+                        <div class="finding-source">Landsat • NCR Region</div>
+                    </div>
+                </div>
+                <div class="finding-content">
+                    <div class="finding-description">
+                        Mean Land Surface Temperature in urban areas reaches 50°C, particularly in regions like Chandi Chowk and commercial zones. This is 8-10°C higher than surrounding rural areas.
+                    </div>
+                    <div class="action-items">
+                        <div class="action-item">
+                            <span class="action-icon">✓</span>
+                            <span class="action-text"><strong>Urban Planning:</strong> Mandate cool roofs and green building codes</span>
+                        </div>
+                        <div class="action-item">
+                            <span class="action-icon">✓</span>
+                            <span class="action-text"><strong>Green Infrastructure:</strong> Increase urban green spaces and tree cover by 25%</span>
+                        </div>
+                        <div class="action-item">
+                            <span class="action-icon">✓</span>
+                            <span class="action-text"><strong>Water Management:</strong> Construct urban wetlands and water bodies for cooling</span>
+                        </div>
+                    </div>
+                    <div class="finding-meta">
+                        <div class="meta-item">
+                            <span class="meta-icon">📊</span>
+                            <span>Data: Landsat 8/9</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-icon">📍</span>
+                            <span>Region: Old Delhi & Commerce Hub</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-icon">⏱️</span>
+                            <span>Updated: Yesterday</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="finding-card" data-severity="medium">
+                <div class="finding-header">
+                    <div class="finding-severity severity-medium">Medium</div>
+                    <div class="finding-info">
+                        <div class="finding-category">
+                            <span>🌿</span>
+                            Vegetation Health
+                        </div>
+                        <div class="finding-title">Poor Vegetation Index in Dense Areas</div>
+                        <div class="finding-source">Sentinel-2 • West Delhi</div>
+                    </div>
+                </div>
+                <div class="finding-content">
+                    <div class="finding-description">
+                        NDVI values lower than 0.3 in densely populated areas indicate poor vegetation health, especially in West Delhi. This exacerbates urban heat and air pollution issues.
+                    </div>
+                    <div class="action-items">
+                        <div class="action-item">
+                            <span class="action-icon">✓</span>
+                            <span class="action-text"><strong>Afforestation:</strong> Plant native species in identified green deficit zones</span>
+                        </div>
+                        <div class="action-item">
+                            <span class="action-icon">✓</span>
+                            <span class="action-text"><strong>Maintenance:</strong> Strengthen existing park maintenance and irrigation systems</span>
+                        </div>
+                        <div class="action-item">
+                            <span class="action-icon">✓</span>
+                            <span class="action-text"><strong>Community:</strong> Engage residents in tree plantation drives</span>
+                        </div>
+                    </div>
+                    <div class="finding-meta">
+                        <div class="meta-item">
+                            <span class="meta-icon">📊</span>
+                            <span>Data: Sentinel-2</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-icon">📍</span>
+                            <span>Region: West Delhi</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-icon">⏱️</span>
+                            <span>Updated: 2 days ago</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="finding-card" data-severity="high">
+                <div class="finding-header">
+                    <div class="finding-severity severity-high">High</div>
+                    <div class="finding-info">
+                        <div class="finding-category">
+                            <span>💧</span>
+                            Soil Moisture
+                        </div>
+                        <div class="finding-title">Critical Soil Moisture Depletion</div>
+                        <div class="finding-source">SMAP • Agricultural Zones</div>
+                    </div>
+                </div>
+                <div class="finding-content">
+                    <div class="finding-description">
+                        Soil moisture levels are critically low (<10%) in agricultural zones around the city due to heat stress and inadequate irrigation. This threatens crop productivity.
+                    </div>
+                    <div class="action-items">
+                        <div class="action-item">
+                            <span class="action-icon">✓</span>
+                            <span class="action-text"><strong>Irrigation:</strong> Implement drip irrigation systems and water harvesting</span>
+                        </div>
+                        <div class="action-item">
+                            <span class="action-icon">✓</span>
+                            <span class="action-text"><strong>Agriculture:</strong> Promote crop rotation and drought-resistant varieties</span>
+                        </div>
+                        <div class="action-item">
+                            <span class="action-icon">✓</span>
+                            <span class="action-text"><strong>Policy:</strong> Provide subsidies for modern irrigation technologies</span>
+                        </div>
+                    </div>
+                    <div class="finding-meta">
+                        <div class="meta-item">
+                            <span class="meta-icon">📊</span>
+                            <span>Data: SMAP</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-icon">📍</span>
+                            <span>Region: Surrounding Agricultural Areas</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-icon">⏱️</span>
+                            <span>Updated: Today</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="finding-card" data-severity="high">
+                <div class="finding-header">
+                    <div class="finding-severity severity-high">High</div>
+                    <div class="finding-info">
+                        <div class="finding-category">
+                            <span>🏗️</span>
+                            Land Use Changes
+                        </div>
+                        <div class="finding-title">Significant Urban Sprawl Detected</div>
+                        <div class="finding-source">Resourcesat • South Delhi</div>
+                    </div>
+                </div>
+                <div class="finding-content">
+                    <div class="finding-description">
+                        Significant urban sprawl observed in South Delhi, with a reduction of green cover by 20% in the last decade. Agricultural land is rapidly converting to built-up areas.
+                    </div>
+                    <div class="action-items">
+                        <div class="action-item">
+                            <span class="action-icon">✓</span>
+                            <span class="action-text"><strong>Land Planning:</strong> Establish green belts and restrict unbridled development</span>
+                        </div>
+                        <div class="action-item">
+                            <span class="action-icon">✓</span>
+                            <span class="action-text"><strong>Zoning:</strong> Enforce strict zoning laws protecting agricultural land</span>
+                        </div>
+                        <div class="action-item">
+                            <span class="action-icon">✓</span>
+                            <span class="action-text"><strong>Sustainability:</strong> Promote vertical gardens and terraced farming</span>
+                        </div>
+                    </div>
+                    <div class="finding-meta">
+                        <div class="meta-item">
+                            <span class="meta-icon">📊</span>
+                            <span>Data: Resourcesat</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-icon">📍</span>
+                            <span>Region: South Delhi</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-icon">⏱️</span>
+                            <span>Updated: Yesterday</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function filterFindings(severity) {
+        const cards = document.querySelectorAll('.finding-card');
+        const buttons = document.querySelectorAll('.filter-btn');
+
+        // Update active button
+        buttons.forEach(btn => btn.classList.remove('active'));
+        event.target.classList.add('active');
+
+        // Filter cards
+        cards.forEach(card => {
+            if (severity === 'all') {
+                card.style.display = 'block';
+            } else {
+                if (card.dataset.severity === severity) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            }
+        });
+    }
+
+    // Add smooth animations on load
+    window.addEventListener('load', () => {
+        const cards = document.querySelectorAll('.finding-card');
+        cards.forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+                card.style.transition = 'all 0.5s ease';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, index * 100);
+        });
+    });
+</script>
+
+</body>
+</html>

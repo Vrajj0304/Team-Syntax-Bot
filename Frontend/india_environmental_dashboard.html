@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_06f54a3942125d1324b23ea4a7473702 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+<div style="position: fixed; bottom: 30px; left: 30px; width: 180px; z-index:9999; background: white; padding: 10px; border: 2px solid grey; font-size: 12px;">
+  <b>Environmental Scale</b><br>
+  <i style="background:#00E400;width:10px;height:10px;display:inline-block"></i> Good AQI<br>
+  <i style="background:#FF0000;width:10px;height:10px;display:inline-block"></i> Poor AQI<br>
+  <i style="background:blue;width:10px;height:10px;display:inline-block"></i> Cool Temp<br>
+  <i style="background:red;width:10px;height:10px;display:inline-block"></i> High Temp<br>
+  <i style="background:green;width:10px;height:10px;display:inline-block"></i> High NDVI
+</div>
+    
+            <div class="folium-map" id="map_06f54a3942125d1324b23ea4a7473702" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_06f54a3942125d1324b23ea4a7473702 = L.map(
+                "map_06f54a3942125d1324b23ea4a7473702",
+                {
+                    center: [22.5937, 78.9629],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 5,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+            L.control.scale().addTo(map_06f54a3942125d1324b23ea4a7473702);
+
+            
+
+        
+    
+            var tile_layer_146a6f8171ba3aa149eaf5cac52bd248 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_146a6f8171ba3aa149eaf5cac52bd248.addTo(map_06f54a3942125d1324b23ea4a7473702);
+        
+    
+            var tile_layer_9f5acafdf1e345b940f25bad98db76c3 = L.tileLayer(
+                "https://earthengine.googleapis.com/v1/projects/enviorsense/maps/cdf5d8dcccdb54208bc17306ab2f96ce-cf9fc38960dd3ccf8f44b086772e80d3/tiles/{z}/{x}/{y}",
+                {
+  "minZoom": 0,
+  "maxZoom": 18,
+  "maxNativeZoom": 18,
+  "noWrap": false,
+  "attribution": "Google Earth Engine",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_9f5acafdf1e345b940f25bad98db76c3.addTo(map_06f54a3942125d1324b23ea4a7473702);
+        
+    
+            var tile_layer_45aca0ced9aeb186c91f8b6da07e012c = L.tileLayer(
+                "https://earthengine.googleapis.com/v1/projects/enviorsense/maps/00d403a451834cf1777c30e9b85394d5-2308450d747a5261e899786629e7df47/tiles/{z}/{x}/{y}",
+                {
+  "minZoom": 0,
+  "maxZoom": 18,
+  "maxNativeZoom": 18,
+  "noWrap": false,
+  "attribution": "Google Earth Engine",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_45aca0ced9aeb186c91f8b6da07e012c.addTo(map_06f54a3942125d1324b23ea4a7473702);
+        
+    
+            var tile_layer_92ae2757aadd3e322fb13d42294f4cd3 = L.tileLayer(
+                "https://earthengine.googleapis.com/v1/projects/enviorsense/maps/4cb96647366f1a974c8697ea1d411674-f01c5cba41f2e5756196c042bf3a3a44/tiles/{z}/{x}/{y}",
+                {
+  "minZoom": 0,
+  "maxZoom": 18,
+  "maxNativeZoom": 18,
+  "noWrap": false,
+  "attribution": "Google Earth Engine",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_92ae2757aadd3e322fb13d42294f4cd3.addTo(map_06f54a3942125d1324b23ea4a7473702);
+        
+    
+            var marker_4c18165b20c354131347cc4785f8a075 = L.marker(
+                [16.5062, 80.5185],
+                {
+}
+            ).addTo(map_06f54a3942125d1324b23ea4a7473702);
+        
+    
+        var popup_62c421100ad0ba42cb0de52150c80813 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_e70741110ac110ad403fa3b5c01c0c52 = $(`<div id="html_e70741110ac110ad403fa3b5c01c0c52" style="width: 100.0%; height: 100.0%;"><b>Amaravati</b><br>Temp: 28.6°C<br>PM2.5: 41.3 µg/m³<br>NDVI: 0.6</div>`)[0];
+                popup_62c421100ad0ba42cb0de52150c80813.setContent(html_e70741110ac110ad403fa3b5c01c0c52);
+            
+        
+
+        marker_4c18165b20c354131347cc4785f8a075.bindPopup(popup_62c421100ad0ba42cb0de52150c80813)
+        ;
+
+        
+    
+    
+            marker_4c18165b20c354131347cc4785f8a075.bindTooltip(
+                `<div>
+                     Amaravati
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_e5e5314b32cd9fbfe63c6df37276a06e = L.marker(
+                [27.0844, 93.6053],
+                {
+}
+            ).addTo(map_06f54a3942125d1324b23ea4a7473702);
+        
+    
+        var popup_0b76a921fbc0d846416099646ae7ecf2 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_b5460a9816d2c7490d5bd492abd8a85b = $(`<div id="html_b5460a9816d2c7490d5bd492abd8a85b" style="width: 100.0%; height: 100.0%;"><b>Itanagar</b><br>Temp: 22.6°C<br>PM2.5: 20.2 µg/m³<br>NDVI: 0.44</div>`)[0];
+                popup_0b76a921fbc0d846416099646ae7ecf2.setContent(html_b5460a9816d2c7490d5bd492abd8a85b);
+            
+        
+
+        marker_e5e5314b32cd9fbfe63c6df37276a06e.bindPopup(popup_0b76a921fbc0d846416099646ae7ecf2)
+        ;
+
+        
+    
+    
+            marker_e5e5314b32cd9fbfe63c6df37276a06e.bindTooltip(
+                `<div>
+                     Itanagar
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_865583c73d90d188db0a665e7e786803 = L.marker(
+                [26.1433, 91.7898],
+                {
+}
+            ).addTo(map_06f54a3942125d1324b23ea4a7473702);
+        
+    
+        var popup_d0907735be1d6fd4f6653a5187a111bf = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_da39ee0ca3adddf3255c34fabb605d6d = $(`<div id="html_da39ee0ca3adddf3255c34fabb605d6d" style="width: 100.0%; height: 100.0%;"><b>Dispur</b><br>Temp: 24.9°C<br>PM2.5: 23.1 µg/m³<br>NDVI: 0.37</div>`)[0];
+                popup_d0907735be1d6fd4f6653a5187a111bf.setContent(html_da39ee0ca3adddf3255c34fabb605d6d);
+            
+        
+
+        marker_865583c73d90d188db0a665e7e786803.bindPopup(popup_d0907735be1d6fd4f6653a5187a111bf)
+        ;
+
+        
+    
+    
+            marker_865583c73d90d188db0a665e7e786803.bindTooltip(
+                `<div>
+                     Dispur
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_19e6cfc68800ad1f023c38727be2349e = L.marker(
+                [25.5941, 85.1376],
+                {
+}
+            ).addTo(map_06f54a3942125d1324b23ea4a7473702);
+        
+    
+        var popup_d8296a6f3810faa70c662762b2fa4c1d = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_76493afd55718c77e600eb24534a8321 = $(`<div id="html_76493afd55718c77e600eb24534a8321" style="width: 100.0%; height: 100.0%;"><b>Patna</b><br>Temp: 23.9°C<br>PM2.5: 64.3 µg/m³<br>NDVI: 0.24</div>`)[0];
+                popup_d8296a6f3810faa70c662762b2fa4c1d.setContent(html_76493afd55718c77e600eb24534a8321);
+            
+        
+
+        marker_19e6cfc68800ad1f023c38727be2349e.bindPopup(popup_d8296a6f3810faa70c662762b2fa4c1d)
+        ;
+
+        
+    
+    
+            marker_19e6cfc68800ad1f023c38727be2349e.bindTooltip(
+                `<div>
+                     Patna
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_cb2c3c53f33ad9046817bf20a2a4c9d2 = L.marker(
+                [21.2514, 81.6296],
+                {
+}
+            ).addTo(map_06f54a3942125d1324b23ea4a7473702);
+        
+    
+        var popup_7088eda818652c6b8673febbd3407391 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_f5ca5cd3f43be16cb269bee0e3d3eff2 = $(`<div id="html_f5ca5cd3f43be16cb269bee0e3d3eff2" style="width: 100.0%; height: 100.0%;"><b>Raipur</b><br>Temp: 25.6°C<br>PM2.5: 59.3 µg/m³<br>NDVI: 0.3</div>`)[0];
+                popup_7088eda818652c6b8673febbd3407391.setContent(html_f5ca5cd3f43be16cb269bee0e3d3eff2);
+            
+        
+
+        marker_cb2c3c53f33ad9046817bf20a2a4c9d2.bindPopup(popup_7088eda818652c6b8673febbd3407391)
+        ;
+
+        
+    
+    
+            marker_cb2c3c53f33ad9046817bf20a2a4c9d2.bindTooltip(
+                `<div>
+                     Raipur
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_55dbddd6bf464eacf11353ef7a48af8b = L.marker(
+                [15.4909, 73.8278],
+                {
+}
+            ).addTo(map_06f54a3942125d1324b23ea4a7473702);
+        
+    
+        var popup_4e6d7a6f033deebc8842c089a4dabeef = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_75debc295beccab9aeba0effa9750be7 = $(`<div id="html_75debc295beccab9aeba0effa9750be7" style="width: 100.0%; height: 100.0%;"><b>Panaji</b><br>Temp: 30.9°C<br>PM2.5: 26.0 µg/m³<br>NDVI: 0.62</div>`)[0];
+                popup_4e6d7a6f033deebc8842c089a4dabeef.setContent(html_75debc295beccab9aeba0effa9750be7);
+            
+        
+
+        marker_55dbddd6bf464eacf11353ef7a48af8b.bindPopup(popup_4e6d7a6f033deebc8842c089a4dabeef)
+        ;
+
+        
+    
+    
+            marker_55dbddd6bf464eacf11353ef7a48af8b.bindTooltip(
+                `<div>
+                     Panaji
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_b86b5f94d8eafc6ecd8f49e52be2d144 = L.marker(
+                [23.2156, 72.6369],
+                {
+}
+            ).addTo(map_06f54a3942125d1324b23ea4a7473702);
+        
+    
+        var popup_aa86410e7aafb3cec7b090e528ed78a5 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_ed636a03c479845e6444f32e9c38e47e = $(`<div id="html_ed636a03c479845e6444f32e9c38e47e" style="width: 100.0%; height: 100.0%;"><b>Gandhinagar</b><br>Temp: 26.4°C<br>PM2.5: 35.6 µg/m³<br>NDVI: 0.4</div>`)[0];
+                popup_aa86410e7aafb3cec7b090e528ed78a5.setContent(html_ed636a03c479845e6444f32e9c38e47e);
+            
+        
+
+        marker_b86b5f94d8eafc6ecd8f49e52be2d144.bindPopup(popup_aa86410e7aafb3cec7b090e528ed78a5)
+        ;
+
+        
+    
+    
+            marker_b86b5f94d8eafc6ecd8f49e52be2d144.bindTooltip(
+                `<div>
+                     Gandhinagar
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_ff0d650a25fee00d27c45b8e667f5db2 = L.marker(
+                [30.7333, 76.7794],
+                {
+}
+            ).addTo(map_06f54a3942125d1324b23ea4a7473702);
+        
+    
+        var popup_a294634f46f277d7a2c9433e1dc8eaf0 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_e94db1176d75c465865b974ab4239bdf = $(`<div id="html_e94db1176d75c465865b974ab4239bdf" style="width: 100.0%; height: 100.0%;"><b>Chandigarh</b><br>Temp: 18.7°C<br>PM2.5: 71.7 µg/m³<br>NDVI: 0.42</div>`)[0];
+                popup_a294634f46f277d7a2c9433e1dc8eaf0.setContent(html_e94db1176d75c465865b974ab4239bdf);
+            
+        
+
+        marker_ff0d650a25fee00d27c45b8e667f5db2.bindPopup(popup_a294634f46f277d7a2c9433e1dc8eaf0)
+        ;
+
+        
+    
+    
+            marker_ff0d650a25fee00d27c45b8e667f5db2.bindTooltip(
+                `<div>
+                     Chandigarh
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_ee7a44df2c90061c7f9da181a0e5e589 = L.marker(
+                [31.1048, 77.1734],
+                {
+}
+            ).addTo(map_06f54a3942125d1324b23ea4a7473702);
+        
+    
+        var popup_8dddad0bb23e8bc39e8ea494f4a29600 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_b93e54ed41b017f0a8cddb6c33ad897a = $(`<div id="html_b93e54ed41b017f0a8cddb6c33ad897a" style="width: 100.0%; height: 100.0%;"><b>Shimla</b><br>Temp: 12.7°C<br>PM2.5: 23.7 µg/m³<br>NDVI: 0.46</div>`)[0];
+                popup_8dddad0bb23e8bc39e8ea494f4a29600.setContent(html_b93e54ed41b017f0a8cddb6c33ad897a);
+            
+        
+
+        marker_ee7a44df2c90061c7f9da181a0e5e589.bindPopup(popup_8dddad0bb23e8bc39e8ea494f4a29600)
+        ;
+
+        
+    
+    
+            marker_ee7a44df2c90061c7f9da181a0e5e589.bindTooltip(
+                `<div>
+                     Shimla
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_9835769bd864fc5bf538c3a927463024 = L.marker(
+                [23.3441, 85.3096],
+                {
+}
+            ).addTo(map_06f54a3942125d1324b23ea4a7473702);
+        
+    
+        var popup_e4b4ff3ab9fa029878ad6fc841e83652 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_85298c69ebc39d4cba514ddce3d1a5ee = $(`<div id="html_85298c69ebc39d4cba514ddce3d1a5ee" style="width: 100.0%; height: 100.0%;"><b>Ranchi</b><br>Temp: 21.8°C<br>PM2.5: 37.1 µg/m³<br>NDVI: 0.42</div>`)[0];
+                popup_e4b4ff3ab9fa029878ad6fc841e83652.setContent(html_85298c69ebc39d4cba514ddce3d1a5ee);
+            
+        
+
+        marker_9835769bd864fc5bf538c3a927463024.bindPopup(popup_e4b4ff3ab9fa029878ad6fc841e83652)
+        ;
+
+        
+    
+    
+            marker_9835769bd864fc5bf538c3a927463024.bindTooltip(
+                `<div>
+                     Ranchi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_7ef901f9ba8c9b56f7482b2e4a9e1c19 = L.marker(
+                [12.9716, 77.5946],
+                {
+}
+            ).addTo(map_06f54a3942125d1324b23ea4a7473702);
+        
+    
+        var popup_d23c5e384c40a33d0164417f813443f7 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_d4af5e874051903366f3cf61b6e460df = $(`<div id="html_d4af5e874051903366f3cf61b6e460df" style="width: 100.0%; height: 100.0%;"><b>Bengaluru</b><br>Temp: 25.7°C<br>PM2.5: 20.3 µg/m³<br>NDVI: 0.51</div>`)[0];
+                popup_d23c5e384c40a33d0164417f813443f7.setContent(html_d4af5e874051903366f3cf61b6e460df);
+            
+        
+
+        marker_7ef901f9ba8c9b56f7482b2e4a9e1c19.bindPopup(popup_d23c5e384c40a33d0164417f813443f7)
+        ;
+
+        
+    
+    
+            marker_7ef901f9ba8c9b56f7482b2e4a9e1c19.bindTooltip(
+                `<div>
+                     Bengaluru
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_9ed0760029eebc5d3f27f8e2b91d8165 = L.marker(
+                [8.5241, 76.9366],
+                {
+}
+            ).addTo(map_06f54a3942125d1324b23ea4a7473702);
+        
+    
+        var popup_dacc0ad3fb3702aded720c84d330f542 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_41415f0617f1b214b02501f9bbd1f1bf = $(`<div id="html_41415f0617f1b214b02501f9bbd1f1bf" style="width: 100.0%; height: 100.0%;"><b>Thiruvananthapuram</b><br>Temp: 33.6°C<br>PM2.5: 16.6 µg/m³<br>NDVI: 0.49</div>`)[0];
+                popup_dacc0ad3fb3702aded720c84d330f542.setContent(html_41415f0617f1b214b02501f9bbd1f1bf);
+            
+        
+
+        marker_9ed0760029eebc5d3f27f8e2b91d8165.bindPopup(popup_dacc0ad3fb3702aded720c84d330f542)
+        ;
+
+        
+    
+    
+            marker_9ed0760029eebc5d3f27f8e2b91d8165.bindTooltip(
+                `<div>
+                     Thiruvananthapuram
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_b69917cf15fc12e1d5009861deae6aec = L.marker(
+                [23.2599, 77.4126],
+                {
+}
+            ).addTo(map_06f54a3942125d1324b23ea4a7473702);
+        
+    
+        var popup_e7bb00bf015636d7c4819992c0a9d545 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_dc4cf4d199c7d5b7416ed33942106921 = $(`<div id="html_dc4cf4d199c7d5b7416ed33942106921" style="width: 100.0%; height: 100.0%;"><b>Bhopal</b><br>Temp: 24.0°C<br>PM2.5: 31.4 µg/m³<br>NDVI: 0.32</div>`)[0];
+                popup_e7bb00bf015636d7c4819992c0a9d545.setContent(html_dc4cf4d199c7d5b7416ed33942106921);
+            
+        
+
+        marker_b69917cf15fc12e1d5009861deae6aec.bindPopup(popup_e7bb00bf015636d7c4819992c0a9d545)
+        ;
+
+        
+    
+    
+            marker_b69917cf15fc12e1d5009861deae6aec.bindTooltip(
+                `<div>
+                     Bhopal
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_887957c780aa8131ccc076bff8fe33c2 = L.marker(
+                [19.076, 72.8777],
+                {
+}
+            ).addTo(map_06f54a3942125d1324b23ea4a7473702);
+        
+    
+        var popup_386e662319fb48bd37a64c1045501da6 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_7cd9e2630bac51827f8c73c82ce2c87a = $(`<div id="html_7cd9e2630bac51827f8c73c82ce2c87a" style="width: 100.0%; height: 100.0%;"><b>Mumbai</b><br>Temp: 32.7°C<br>PM2.5: 47.1 µg/m³<br>NDVI: 0.25</div>`)[0];
+                popup_386e662319fb48bd37a64c1045501da6.setContent(html_7cd9e2630bac51827f8c73c82ce2c87a);
+            
+        
+
+        marker_887957c780aa8131ccc076bff8fe33c2.bindPopup(popup_386e662319fb48bd37a64c1045501da6)
+        ;
+
+        
+    
+    
+            marker_887957c780aa8131ccc076bff8fe33c2.bindTooltip(
+                `<div>
+                     Mumbai
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_557e0865c4315c8044bec6c4e1507ac3 = L.marker(
+                [24.817, 93.9368],
+                {
+}
+            ).addTo(map_06f54a3942125d1324b23ea4a7473702);
+        
+    
+        var popup_bce30604f7bc0a7bf54ed891349414b7 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_3ca51558d711f1639bdb8cc7739e3b98 = $(`<div id="html_3ca51558d711f1639bdb8cc7739e3b98" style="width: 100.0%; height: 100.0%;"><b>Imphal</b><br>Temp: 22.4°C<br>PM2.5: 15.3 µg/m³<br>NDVI: 0.26</div>`)[0];
+                popup_bce30604f7bc0a7bf54ed891349414b7.setContent(html_3ca51558d711f1639bdb8cc7739e3b98);
+            
+        
+
+        marker_557e0865c4315c8044bec6c4e1507ac3.bindPopup(popup_bce30604f7bc0a7bf54ed891349414b7)
+        ;
+
+        
+    
+    
+            marker_557e0865c4315c8044bec6c4e1507ac3.bindTooltip(
+                `<div>
+                     Imphal
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_661b5cde7fe9d7aa61b9f47a7b60cb88 = L.marker(
+                [25.5788, 91.8933],
+                {
+}
+            ).addTo(map_06f54a3942125d1324b23ea4a7473702);
+        
+    
+        var popup_9d789968b19b3c96b8510f15e017f6ec = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_79e6f07117fcad6f679a710d28073ed4 = $(`<div id="html_79e6f07117fcad6f679a710d28073ed4" style="width: 100.0%; height: 100.0%;"><b>Shillong</b><br>Temp: 17.9°C<br>PM2.5: 12.4 µg/m³<br>NDVI: 0.44</div>`)[0];
+                popup_9d789968b19b3c96b8510f15e017f6ec.setContent(html_79e6f07117fcad6f679a710d28073ed4);
+            
+        
+
+        marker_661b5cde7fe9d7aa61b9f47a7b60cb88.bindPopup(popup_9d789968b19b3c96b8510f15e017f6ec)
+        ;
+
+        
+    
+    
+            marker_661b5cde7fe9d7aa61b9f47a7b60cb88.bindTooltip(
+                `<div>
+                     Shillong
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_8d4e6addd84bcf0f92d381fd879c4b76 = L.marker(
+                [23.7271, 92.9376],
+                {
+}
+            ).addTo(map_06f54a3942125d1324b23ea4a7473702);
+        
+    
+        var popup_c390f8204d834986bfe1250a49b751f5 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_55492f87e4a4bef69cf2840225a9c3f6 = $(`<div id="html_55492f87e4a4bef69cf2840225a9c3f6" style="width: 100.0%; height: 100.0%;"><b>Aizawl</b><br>Temp: 18.9°C<br>PM2.5: 9.8 µg/m³<br>NDVI: 0.87</div>`)[0];
+                popup_c390f8204d834986bfe1250a49b751f5.setContent(html_55492f87e4a4bef69cf2840225a9c3f6);
+            
+        
+
+        marker_8d4e6addd84bcf0f92d381fd879c4b76.bindPopup(popup_c390f8204d834986bfe1250a49b751f5)
+        ;
+
+        
+    
+    
+            marker_8d4e6addd84bcf0f92d381fd879c4b76.bindTooltip(
+                `<div>
+                     Aizawl
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_62197b9be076ff104ee7683352a25a26 = L.marker(
+                [25.6751, 94.1086],
+                {
+}
+            ).addTo(map_06f54a3942125d1324b23ea4a7473702);
+        
+    
+        var popup_1eb0b1229f83f2dfd94c1c6b720a7895 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_7e7317ef72bd334871006be893e6ce41 = $(`<div id="html_7e7317ef72bd334871006be893e6ce41" style="width: 100.0%; height: 100.0%;"><b>Kohima</b><br>Temp: 18.4°C<br>PM2.5: 12.1 µg/m³<br>NDVI: 0.41</div>`)[0];
+                popup_1eb0b1229f83f2dfd94c1c6b720a7895.setContent(html_7e7317ef72bd334871006be893e6ce41);
+            
+        
+
+        marker_62197b9be076ff104ee7683352a25a26.bindPopup(popup_1eb0b1229f83f2dfd94c1c6b720a7895)
+        ;
+
+        
+    
+    
+            marker_62197b9be076ff104ee7683352a25a26.bindTooltip(
+                `<div>
+                     Kohima
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_ba43922fefb24e94e9f875b18273f3bb = L.marker(
+                [20.2961, 85.8245],
+                {
+}
+            ).addTo(map_06f54a3942125d1324b23ea4a7473702);
+        
+    
+        var popup_15f2f6a631b743d2c7600a2dc4f0b7bc = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_4c88e5f4154d62561a7a49b9c1c9dc9e = $(`<div id="html_4c88e5f4154d62561a7a49b9c1c9dc9e" style="width: 100.0%; height: 100.0%;"><b>Bhubaneswar</b><br>Temp: 26.1°C<br>PM2.5: 49.1 µg/m³<br>NDVI: 0.38</div>`)[0];
+                popup_15f2f6a631b743d2c7600a2dc4f0b7bc.setContent(html_4c88e5f4154d62561a7a49b9c1c9dc9e);
+            
+        
+
+        marker_ba43922fefb24e94e9f875b18273f3bb.bindPopup(popup_15f2f6a631b743d2c7600a2dc4f0b7bc)
+        ;
+
+        
+    
+    
+            marker_ba43922fefb24e94e9f875b18273f3bb.bindTooltip(
+                `<div>
+                     Bhubaneswar
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_8ff0187e7c106fce8b12a8b744d98fe8 = L.marker(
+                [26.9124, 75.7873],
+                {
+}
+            ).addTo(map_06f54a3942125d1324b23ea4a7473702);
+        
+    
+        var popup_40009c2a64dd69ffabd476793585371d = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_2436d081d89e59ccbe6ddde77bde1062 = $(`<div id="html_2436d081d89e59ccbe6ddde77bde1062" style="width: 100.0%; height: 100.0%;"><b>Jaipur</b><br>Temp: 21.9°C<br>PM2.5: 45.1 µg/m³<br>NDVI: 0.31</div>`)[0];
+                popup_40009c2a64dd69ffabd476793585371d.setContent(html_2436d081d89e59ccbe6ddde77bde1062);
+            
+        
+
+        marker_8ff0187e7c106fce8b12a8b744d98fe8.bindPopup(popup_40009c2a64dd69ffabd476793585371d)
+        ;
+
+        
+    
+    
+            marker_8ff0187e7c106fce8b12a8b744d98fe8.bindTooltip(
+                `<div>
+                     Jaipur
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_b6ba95a22e76a10bdb92bac3b94014b5 = L.marker(
+                [27.3314, 88.6065],
+                {
+}
+            ).addTo(map_06f54a3942125d1324b23ea4a7473702);
+        
+    
+        var popup_dba6e7b92b64b52cf75457405706a493 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_4fa6518dd8785b83c407d7aa3081bb68 = $(`<div id="html_4fa6518dd8785b83c407d7aa3081bb68" style="width: 100.0%; height: 100.0%;"><b>Gangtok</b><br>Temp: 16.3°C<br>PM2.5: 14.8 µg/m³<br>NDVI: 0.64</div>`)[0];
+                popup_dba6e7b92b64b52cf75457405706a493.setContent(html_4fa6518dd8785b83c407d7aa3081bb68);
+            
+        
+
+        marker_b6ba95a22e76a10bdb92bac3b94014b5.bindPopup(popup_dba6e7b92b64b52cf75457405706a493)
+        ;
+
+        
+    
+    
+            marker_b6ba95a22e76a10bdb92bac3b94014b5.bindTooltip(
+                `<div>
+                     Gangtok
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_de4a506d76fc7142f9bcf6a57621a235 = L.marker(
+                [13.0827, 80.2707],
+                {
+}
+            ).addTo(map_06f54a3942125d1324b23ea4a7473702);
+        
+    
+        var popup_30633b445d77c9fc27a66e5ad535e848 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_c29d6cb5fff01863e8502764c3ca0c2b = $(`<div id="html_c29d6cb5fff01863e8502764c3ca0c2b" style="width: 100.0%; height: 100.0%;"><b>Chennai</b><br>Temp: 29.5°C<br>PM2.5: 26.0 µg/m³<br>NDVI: 0.23</div>`)[0];
+                popup_30633b445d77c9fc27a66e5ad535e848.setContent(html_c29d6cb5fff01863e8502764c3ca0c2b);
+            
+        
+
+        marker_de4a506d76fc7142f9bcf6a57621a235.bindPopup(popup_30633b445d77c9fc27a66e5ad535e848)
+        ;
+
+        
+    
+    
+            marker_de4a506d76fc7142f9bcf6a57621a235.bindTooltip(
+                `<div>
+                     Chennai
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_4e9798eb448283041ca274af84c43179 = L.marker(
+                [17.385, 78.4867],
+                {
+}
+            ).addTo(map_06f54a3942125d1324b23ea4a7473702);
+        
+    
+        var popup_a0e7957c3dc9061eb42212040a753d10 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_dbbd927fe5a219042f973438fcf2066f = $(`<div id="html_dbbd927fe5a219042f973438fcf2066f" style="width: 100.0%; height: 100.0%;"><b>Hyderabad</b><br>Temp: 27.9°C<br>PM2.5: 35.3 µg/m³<br>NDVI: 0.22</div>`)[0];
+                popup_a0e7957c3dc9061eb42212040a753d10.setContent(html_dbbd927fe5a219042f973438fcf2066f);
+            
+        
+
+        marker_4e9798eb448283041ca274af84c43179.bindPopup(popup_a0e7957c3dc9061eb42212040a753d10)
+        ;
+
+        
+    
+    
+            marker_4e9798eb448283041ca274af84c43179.bindTooltip(
+                `<div>
+                     Hyderabad
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_b0dd96c566e0c8459f7f62a90a71c540 = L.marker(
+                [23.8315, 91.2868],
+                {
+}
+            ).addTo(map_06f54a3942125d1324b23ea4a7473702);
+        
+    
+        var popup_23793d05aa45f0a8bbdef3299e7bdf06 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_38bf5e7448b48479955cc6bb9724a9b6 = $(`<div id="html_38bf5e7448b48479955cc6bb9724a9b6" style="width: 100.0%; height: 100.0%;"><b>Agartala</b><br>Temp: 24.2°C<br>PM2.5: 44.2 µg/m³<br>NDVI: 0.42</div>`)[0];
+                popup_23793d05aa45f0a8bbdef3299e7bdf06.setContent(html_38bf5e7448b48479955cc6bb9724a9b6);
+            
+        
+
+        marker_b0dd96c566e0c8459f7f62a90a71c540.bindPopup(popup_23793d05aa45f0a8bbdef3299e7bdf06)
+        ;
+
+        
+    
+    
+            marker_b0dd96c566e0c8459f7f62a90a71c540.bindTooltip(
+                `<div>
+                     Agartala
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_beae9f893f75da4ca0a3c1481e70795e = L.marker(
+                [26.8467, 80.9462],
+                {
+}
+            ).addTo(map_06f54a3942125d1324b23ea4a7473702);
+        
+    
+        var popup_fa97f66d5352b4b2066c5e23ecb41999 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_56f9af585e51f4e6a152fddf533e4a51 = $(`<div id="html_56f9af585e51f4e6a152fddf533e4a51" style="width: 100.0%; height: 100.0%;"><b>Lucknow</b><br>Temp: 22.6°C<br>PM2.5: 72.8 µg/m³<br>NDVI: 0.34</div>`)[0];
+                popup_fa97f66d5352b4b2066c5e23ecb41999.setContent(html_56f9af585e51f4e6a152fddf533e4a51);
+            
+        
+
+        marker_beae9f893f75da4ca0a3c1481e70795e.bindPopup(popup_fa97f66d5352b4b2066c5e23ecb41999)
+        ;
+
+        
+    
+    
+            marker_beae9f893f75da4ca0a3c1481e70795e.bindTooltip(
+                `<div>
+                     Lucknow
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_8bf1e5b78cb275c3341ab8ccdbb5a989 = L.marker(
+                [30.3165, 78.0322],
+                {
+}
+            ).addTo(map_06f54a3942125d1324b23ea4a7473702);
+        
+    
+        var popup_34b75c8d2e9bf7ae0a233f4900735684 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_e167c899992e331f7ab186b80283990d = $(`<div id="html_e167c899992e331f7ab186b80283990d" style="width: 100.0%; height: 100.0%;"><b>Dehradun</b><br>Temp: 19.8°C<br>PM2.5: 44.2 µg/m³<br>NDVI: 0.25</div>`)[0];
+                popup_34b75c8d2e9bf7ae0a233f4900735684.setContent(html_e167c899992e331f7ab186b80283990d);
+            
+        
+
+        marker_8bf1e5b78cb275c3341ab8ccdbb5a989.bindPopup(popup_34b75c8d2e9bf7ae0a233f4900735684)
+        ;
+
+        
+    
+    
+            marker_8bf1e5b78cb275c3341ab8ccdbb5a989.bindTooltip(
+                `<div>
+                     Dehradun
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_807392cb657fbac219e7db419ffc7c86 = L.marker(
+                [22.5726, 88.3639],
+                {
+}
+            ).addTo(map_06f54a3942125d1324b23ea4a7473702);
+        
+    
+        var popup_4c974929f9bff9d3994eb5c724fb29c7 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_3042fb9a200ec10f093cdb2cae80aa1e = $(`<div id="html_3042fb9a200ec10f093cdb2cae80aa1e" style="width: 100.0%; height: 100.0%;"><b>Kolkata</b><br>Temp: 24.9°C<br>PM2.5: 69.5 µg/m³<br>NDVI: 0.23</div>`)[0];
+                popup_4c974929f9bff9d3994eb5c724fb29c7.setContent(html_3042fb9a200ec10f093cdb2cae80aa1e);
+            
+        
+
+        marker_807392cb657fbac219e7db419ffc7c86.bindPopup(popup_4c974929f9bff9d3994eb5c724fb29c7)
+        ;
+
+        
+    
+    
+            marker_807392cb657fbac219e7db419ffc7c86.bindTooltip(
+                `<div>
+                     Kolkata
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+</script>
+</html>
