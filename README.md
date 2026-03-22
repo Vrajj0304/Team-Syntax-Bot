@@ -63,6 +63,7 @@ Anomaly Detection: AI-driven alerts for sudden changes in vegetation index or po
 Urban Analytics: Specific modules for tracking Heat Islands and Land Use/Land Cover (LULC) changes.
 
 
+
 Team Members:
 
 
