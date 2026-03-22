@@ -87,10 +87,8 @@ Open index.html in browser
 **Syntax Bot**
 
 ### 👨‍🚀 Team Members
-- Kushal Jain  
-- Jainil Khatri  
-- Mayan Barwal  
-- Vraj Agrawal  
-- Sneh Bhalodia  
-
-This project is for academic and research purposes.
+- Kushal Jain -  https://www.linkedin.com/in/kushaljain11/
+- Jainil Khatri - https://www.linkedin.com/in/jainil-khatri-6b1923315/
+- Mayan Barwal - https:/www.linkedin.com/in/mayan-barwal-00594a329/
+- Vraj Agrawal - https://www.linkedin.com/in/vraj-agrawal/
+- Sneh Bhalodia - https://www.linkedin.com/in/sneh-bhalodia-94814431b/
