@@ -93,26 +93,4 @@ Open index.html in browser
 - Vraj Agrawal  
 - Sneh Bhalodia  
 
----
-## 🌟 Impact
-- Enables data-driven urban planning  
-- Bridges gap between satellite data & policy action  
-- Provides real-time environmental insights  
-- Supports smart city development  
-
----
-## 📌 Future Scope
-- 📱 Mobile app development  
-- 🌐 Government API integration  
-- 🤖 Advanced AI predictions  
-- 📊 Real-time alert system  
-
----
-
-## 📷 Screenshots
-(Add your project screenshots here)
-
----
-
-## 📄 License
 This project is for academic and research purposes.
